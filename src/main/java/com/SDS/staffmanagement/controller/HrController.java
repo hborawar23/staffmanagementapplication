@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/hr")
 public class HrController {
     @RequestMapping("/home")
-    public String dashboard()
+    public String view_dashboard()
     {
         return "hr_dashboard";
     }
