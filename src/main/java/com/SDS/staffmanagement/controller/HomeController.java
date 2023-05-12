@@ -38,7 +38,7 @@ public class HomeController {
         return "login";
     }
 
-    @RequestMapping(value = "/confirm-account", method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = "/confirm-account")
     public String confirmUserAccount(Model model, @RequestParam("token") String confirmationToken) {
         if (emailService.confirmUser(confirmationToken)) {
             model.addAttribute("success", "your email has been verified. you can now login");
@@ -48,14 +48,6 @@ public class HomeController {
          return "verify-fail.html";
     }
 
-    @GetMapping("/verify")
-    public String verifyUser(@Param("code") String code) {
-        if (userService.verify(code)) {
-            return "verify_success";
-        } else {
-            return "verify_fail";
-        }
-    }
 
 
 

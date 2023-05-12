@@ -1,5 +1,6 @@
 package com.SDS.staffmanagement.configuration;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -7,13 +8,24 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Set;
 
 @Configuration
 @EnableWebSecurity
-public class MyConfig extends WebSecurityConfigurerAdapter {
+public class  MyConfig extends WebSecurityConfigurerAdapter {
 
+    @Autowired
+    public CustomSuccessHandler customSuccessHandler;
     @Bean
     public UserDetailsService getUserDetailService(){
         return new UserServiceImpl();
@@ -41,18 +53,45 @@ public class MyConfig extends WebSecurityConfigurerAdapter {
 
     }
 
+//    @Override
+//    protected void configure(HttpSecurity http) throws Exception {
+//        System.out.println("Security check----------------------------*****************************");
+//        http.authorizeRequests().antMatchers("/hr/**").hasRole("HR")
+//                .antMatchers("/staff/**").hasRole("STAFF")
+//                .antMatchers("/manager/**").hasRole("MANAGER")
+//                .antMatchers("/**")
+//                .permitAll()
+//                .and()
+//                .formLogin()
+//                .loginPage("/login")
+//                .usernameParameter("email")
+//                .passwordParameter("password")
+//                .loginProcessingUrl("login")
+//                .successHandler(customSuccessHandler)
+//                .and()
+//                .csrf()
+//                .disable();
+//    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/hr/**").hasRole("HR")
-                .antMatchers("/staff/**").hasRole("Staff")
-                .antMatchers("/manager/**").hasRole("Manager")
-                .antMatchers("/**")
-                .permitAll()
+        http.authorizeRequests().antMatchers("/staff/**").hasRole("STAFF")
+                .antMatchers("/manager/**").hasRole("MANAGER")
+                .antMatchers("/**").permitAll()
                 .and()
                 .formLogin()
                 .loginPage("/login")
-                .and()
-                .csrf()
-                .disable();
+                .successHandler(new AuthenticationSuccessHandler() {
+                    @Override
+                    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+                        Set<String> role = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
+                        if(role.contains("ROLE_STAFF")){
+                            response.sendRedirect("/staff/");
+                        }else if (role.contains("ROLE_MANAGER")) {
+                            response.sendRedirect("/manager/");
+                        }
+                    }
+                })
+                .and().csrf().disable();
     }
 }

@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/manager")
 public class ManagerController {
 
-    @RequestMapping("/home")
+    @RequestMapping("/")
     public String dashboard()
     {
         return "manager_dashboard";
