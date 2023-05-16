@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="base::Layout(~{::section})"
+      xmlns="http://www.w3.org/1999/html">
+<head>
+  <meta charset="UTF-8">
+  <title>This is Home Page</title>
+</head>
+<body>
+<section>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 offset-md-2">
+        <div class="my-card mt-3">
+
+          <div th:if ="${session.message}" th:classappend="${session.message.type}" class="alert alert-primary" role="alert">
+            <p class="text-center" th:text="${session.message.content}"></p>
+            <th:block th:text="${#session.removeAttribute('message')}"></th:block>
+          </div>
+          <!--Registration Image--->
+          <div class="container text-center" >
+            <img style="width: 80px;" src="" th:src="@{/image/registration.png}">
+          </div>
+
+          <h2 class="text-center">Register Here</h2>
+          <form action=""  method="post" th:action="@{/register/do_register}" th:object="${user}">
+            <!--First Name Field-->
+            <div class="form-group">
+              <label for="Name_Field">Full Name</label>
+              <input
+                      name="name"
+                      type="text"
+                      class="form-control"
+                      id="Name_Field"
+                      placeholder="Enter Your Name Here"
+                      required
+                      th:value="${user.name}"
+              />
+            </div>
+            <!---Father's Name--->
+            <div class="form-group">
+              <label for="Father_Name_Field">Father Name</label>
+              <input
+                      name="fatherName"
+                      type="text"
+                      class="form-control"
+                      id="Father_Name_Field"
+                      placeholder="Enter Father's Name Here"
+                      required
+                      th:value="${user.fatherName}"
+              />
+            </div>
+            <!---Mother's Name--->
+            <div class="form-group">
+              <label for="Mother_Name_Field">Mother Name</label>
+              <input
+                      name="motherName"
+                      type="text"
+                      class="form-control"
+                      id="Mother_Name_Field"
+                      placeholder="Enter Mother's Name Here"
+                      required
+                      th:value="${user.motherName}"
+              />
+            </div>
+            <!--Email Field-->
+            <div class="form-group">
+              <label for="Email_Field">Email Id</label>
+              <input
+                      name="email"
+                      type="email"
+                      class="form-control"
+                      id="Email_Field"
+                      placeholder="Enter Here"
+                      required
+                      th:value="${user.email}"
+              />
+            </div>
+            <!---Gender--->
+            <label>Gender</label>
+            <div class="form-check">
+              <input name="gender" class="form-check-input" type="radio"  id="exampleRadios1" value="Male" checked th:value="${user.gender}">
+              <label class="form-check-label" for="exampleRadios1">
+                Male
+              </label>
+              </div>
+
+            <div class="form-check">
+              <input  name="gender" class="form-check-input" type="radio"  id="exampleRadios2" value="Female">
+              <label class="form-check-label" for="exampleRadios2">
+                Female
+              </label>
+            </div>
+
+            <!--Blood Group--->
+            <form class="form-inline">
+              <label class="my-1 mr-2" for="BloodGroup">Blood Group  </label>
+              <select name ="bloodGroup" class="custom-select my-1 mr-sm-2" id="BloodGroup">
+                <option selected>Choose...</option>
+                <option value="A+">A+</option>
+                <option value="A-">A-</option>
+                <option value="B+">B+</option>
+                <option value="B-">B-</option>
+                <option value="AB+">AB+</option>
+                <option value="AB-">AB-</option>
+                <option value="O+">O+</option>
+                <option value="O-">O-</option>
+              </select>
+
+            <!---Photo-->
+            <div class="form-group">
+              <label for="exampleFormControlFile1">Upload Photograph</label>
+              <input name="photo" type="file" class="form-control-file" id="exampleFormControlFile1">
+            </div>
+
+            <!---Role--->
+            <div class="form-group">
+              <label for="Role">Select Role </label>
+              <select name="role" class="form-control" id="Role">
+                <option>ROLE_MANAGER</option>
+                <option>ROLE_STAFF</option>
+              </select>
+            </div>
+
+             <!---DOB-->
+              <div class="mb-3">
+                <label>DOB</label>
+                <input type="date" name="dob" class="form-control" placeholder="Enter DOB">
+              </div>
+
+
+            <!---Address--->
+            <div class="input-group">
+              <div class="input-group-prepend mb-3">
+                <div class="input-group-text">Permanent Address</div>
+              </div>
+              <textarea name="permanentAddress" class="form-control mb-3" aria-label="Address"></textarea>
+            </div>
+
+            <div class="input-group">
+              <div class="input-group-prepend mb-3">
+                <div class="input-group-text">Present Address</div>
+              </div>
+              <textarea name="presentAddress" class="form-control mb-3" aria-label="Address"></textarea>
+            </div>
+
+            <!---Identity proof--->
+            <label>Identity Proof</label>
+            <div class="input-group mb-3 ">
+              <div class="custom-file">
+                <input name="identityProof" type="file" class="custom-file-input" id="inputGroupFile02">
+                <label class="custom-file-label" for="inputGroupFile02">Choose file</label>
+              </div>
+            </div>
+
+              <!---Mobile number--->
+              <div class="input-group mb-3 ">
+              <input name="mobileNumber" type="text" id="UserMobile" maxlength="20" data-fv-numeric="true" data-fv-numeric-message="Please enter valid phone numbers" data-fv-phone-country11="IN" required="required" data-fv-notempty-message="This field cannot be left blank." placeholder="Mobile No. " class="form-control"  data-fv-field="data[User][mobile]">
+
+              </div>
+
+              <!--Terms and Conditions-->
+              <div class="form-group form-check">
+                <input type="checkbox"
+                       name="agreement"
+                       class="form-check-input"
+                       id="agreement">
+                <label class="form-check-label" for="agreement">Terms & Conditions</label>
+              </div>
+
+             <!--  Buttons -->
+            <div class="container text-center">
+              <button type="submit" class="btn bg-primary text-white">
+                Register
+              </button>
+              <button type="reset" class="btn btn-warning ">
+                Reset
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</body>
+</html>
