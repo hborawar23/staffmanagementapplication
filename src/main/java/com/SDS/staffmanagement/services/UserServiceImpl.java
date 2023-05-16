@@ -1,8 +1,11 @@
 package com.SDS.staffmanagement.services;
+import com.SDS.staffmanagement.commonUtils.ConstantUtils;
 import com.SDS.staffmanagement.entities.User;
 import com.SDS.staffmanagement.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -40,15 +43,17 @@ public class UserServiceImpl implements UserService {
             return true;
         }
 
+
+    }
+    @Override
+    public List<User> getAllUsers() {
+        return (List<User>) userRepository.findAll();
     }
 
-
-
-
-
-
-
-
+    @Override
+    public List<User> getAllStaff() {
+        return  userRepository.getAllByRole(ConstantUtils.ROLE_STAFF);
+    }
 
 
 //    @Override

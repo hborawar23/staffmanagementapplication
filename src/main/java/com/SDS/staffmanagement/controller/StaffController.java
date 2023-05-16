@@ -16,14 +16,18 @@ public class StaffController {
     @Autowired
     private UserRepository userRepository;
     @RequestMapping("/")
-    public String dashboard(Model model, Principal principal)
+    public String dashboard(Model model)
     {
-        String name = principal.getName();
-        System.out.println("USERNAME" + name);
-
-        User user = userRepository.getUserByUserName(name);
-        System.out.println("USER" + user);
-        //get the user using username(Email)
+        model.addAttribute("title","Staff Dashboard");
         return "Staff/staff_dashboard";
     }
+    @RequestMapping("/calendar")
+    public String openCalendar(Model model){
+        model.addAttribute("title","Calendar");
+        return "calendar";
+    }
+
+
+
+
 }

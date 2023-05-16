@@ -35,7 +35,7 @@ public class HomeController {
     @RequestMapping("/login")
     public String login(Model model){
         model.addAttribute("title","Login-Staff Management System");
-        return "login";
+        return "login_page";
     }
 
     @RequestMapping(value = "/confirm-account")
