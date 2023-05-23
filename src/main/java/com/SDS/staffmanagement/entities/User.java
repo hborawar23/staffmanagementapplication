@@ -72,9 +72,10 @@ public class User {
     @Column(columnDefinition="String default Null")
     private String dateOfJoining;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<Project> projects;
+
 
     public List<Project> getProjects() {
         return projects;
@@ -103,6 +104,39 @@ public class User {
     public User() {
     }
 
+//
+//    public Project getProject() {
+//        return project;
+//    }
+//
+//    public void setProject(Project project) {
+//        this.project = project;
+//    }
+
+    public User(int id, String dob, String verificationCode, boolean enabled, String password, String confirmationTokenEntity, String name, String fatherName, String motherName, String email, String bloodGrp, String gender, String photo, String role, String identityProof, String permanentAddress, String presentAddress, String mobileNumber, String skillExperience, String dateOfJoining, Project project) {
+        this.id = id;
+        this.dob = dob;
+        this.verificationCode = verificationCode;
+        this.enabled = enabled;
+        this.password = password;
+        this.confirmationTokenEntity = confirmationTokenEntity;
+        this.name = name;
+        this.fatherName = fatherName;
+        this.motherName = motherName;
+        this.email = email;
+        this.bloodGrp = bloodGrp;
+        this.gender = gender;
+        this.photo = photo;
+        this.role = role;
+        this.identityProof = identityProof;
+        this.permanentAddress = permanentAddress;
+        this.presentAddress = presentAddress;
+        this.mobileNumber = mobileNumber;
+        this.skillExperience = skillExperience;
+        this.dateOfJoining = dateOfJoining;
+        this.projects = projects;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -128,30 +162,6 @@ public class User {
                 ", dateOfJoining='" + dateOfJoining + '\'' +
                 ", projects=" + projects +
                 '}';
-    }
-
-    public User(int id, String dob, String verificationCode, boolean enabled, String password, String confirmationTokenEntity, String name, String fatherName, String motherName, String email, String bloodGrp, String gender, String photo, String role, String identityProof, String permanentAddress, String presentAddress, String mobileNumber, String skillExperience, String dateOfJoining, List<Project> projects) {
-        this.id = id;
-        this.dob = dob;
-        this.verificationCode = verificationCode;
-        this.enabled = enabled;
-        this.password = password;
-        this.confirmationTokenEntity = confirmationTokenEntity;
-        this.name = name;
-        this.fatherName = fatherName;
-        this.motherName = motherName;
-        this.email = email;
-        this.bloodGrp = bloodGrp;
-        this.gender = gender;
-        this.photo = photo;
-        this.role = role;
-        this.identityProof = identityProof;
-        this.permanentAddress = permanentAddress;
-        this.presentAddress = presentAddress;
-        this.mobileNumber = mobileNumber;
-        this.skillExperience = skillExperience;
-        this.dateOfJoining = dateOfJoining;
-        this.projects = projects;
     }
 
     public int getId() {

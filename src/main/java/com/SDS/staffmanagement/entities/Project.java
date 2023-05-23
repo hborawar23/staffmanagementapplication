@@ -17,6 +17,7 @@ public class Project {
     private String projectDescription;
 
     @ManyToOne
+    @JoinColumn(name = "project")
     @JsonBackReference
     private User user;
 
@@ -30,6 +31,14 @@ public class Project {
                 ", projects='" + name + '\'' +
                 ", projectDescription='" + projectDescription + '\'' +
                 '}';
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Project(int id, String name, String projectDescription) {
