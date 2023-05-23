@@ -14,19 +14,26 @@ public interface UserService {
     Optional<User> findUser(String email);
 
     boolean existsUserByEmail(String email);
-
-//    void sendVerificationEmail(User user,String siteURL) throws MessagingException, UnsupportedEncodingException;
-
-//    void register (User user,String siteURL) throws MessagingException, UnsupportedEncodingException;
-
     boolean verify(String verificationCode);
 
     List<User> getAllUsers();
 
     List<User> getAllStaff();
 
-
-
-
-
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+//    void sendVerificationEmail(User user,String siteURL) throws MessagingException, UnsupportedEncodingException;
+
+//    void register (User user,String siteURL) throws MessagingException, UnsupportedEncodingException;

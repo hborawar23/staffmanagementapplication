@@ -1,8 +1,11 @@
 package com.SDS.staffmanagement.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 @Entity
 public class User {
@@ -52,6 +55,7 @@ public class User {
 
     private String photo;
 
+
     private String role;
 
     private String identityProof;
@@ -61,6 +65,40 @@ public class User {
     private String presentAddress;
 
     private String mobileNumber;
+
+    @Column(columnDefinition="String default Null")
+    private String skillExperience;
+
+    @Column(columnDefinition="String default Null")
+    private String dateOfJoining;
+
+    @OneToMany(mappedBy = "user")
+    @JsonManagedReference
+    private List<Project> projects;
+
+    public List<Project> getProjects() {
+        return projects;
+    }
+
+    public void setProjects(List<Project> projects) {
+        this.projects = projects;
+    }
+
+    public String getSkillExperience() {
+        return skillExperience;
+    }
+
+    public void setSkillExperience(String skillExperience) {
+        this.skillExperience = skillExperience;
+    }
+
+    public String getDateOfJoining() {
+        return dateOfJoining;
+    }
+
+    public void setDateOfJoining(String dateOfJoining) {
+        this.dateOfJoining = dateOfJoining;
+    }
 
     public User() {
     }
@@ -73,7 +111,7 @@ public class User {
                 ", verificationCode='" + verificationCode + '\'' +
                 ", enabled=" + enabled +
                 ", password='" + password + '\'' +
-                ", confirmationTokenEntity=" + confirmationTokenEntity +
+                ", confirmationTokenEntity='" + confirmationTokenEntity + '\'' +
                 ", name='" + name + '\'' +
                 ", fatherName='" + fatherName + '\'' +
                 ", motherName='" + motherName + '\'' +
@@ -86,10 +124,13 @@ public class User {
                 ", permanentAddress='" + permanentAddress + '\'' +
                 ", presentAddress='" + presentAddress + '\'' +
                 ", mobileNumber='" + mobileNumber + '\'' +
+                ", skillExperience='" + skillExperience + '\'' +
+                ", dateOfJoining='" + dateOfJoining + '\'' +
+                ", projects=" + projects +
                 '}';
     }
 
-    public User(int id, String dob, String verificationCode, boolean enabled, String password, String confirmationTokenEntity, String name, String fatherName, String motherName, String email, String bloodGrp, String gender, String photo, String role, String identityProof, String permanentAddress, String presentAddress, String mobileNumber) {
+    public User(int id, String dob, String verificationCode, boolean enabled, String password, String confirmationTokenEntity, String name, String fatherName, String motherName, String email, String bloodGrp, String gender, String photo, String role, String identityProof, String permanentAddress, String presentAddress, String mobileNumber, String skillExperience, String dateOfJoining, List<Project> projects) {
         this.id = id;
         this.dob = dob;
         this.verificationCode = verificationCode;
@@ -108,6 +149,9 @@ public class User {
         this.permanentAddress = permanentAddress;
         this.presentAddress = presentAddress;
         this.mobileNumber = mobileNumber;
+        this.skillExperience = skillExperience;
+        this.dateOfJoining = dateOfJoining;
+        this.projects = projects;
     }
 
     public int getId() {

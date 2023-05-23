@@ -1,31 +1,39 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="HR/base::Layout(~{::section})"
       xmlns="http://www.w3.org/1999/html">
-<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Modify Staff</title>
+  <title>Title</title>
 </head>
 <body>
-<!--<section>-->
-<!--  <div class="card mr-3 mt-3">-->
-<!--    <div class="card-body">-->
-<!--      <h1 class="text-center mt-5">Employee Details</h1>-->
-<!--      <div class="container-fluid mt-1">-->
-<!--        <table class="table">-->
-<!--          <thead>-->
-<!--          <tr>-->
-<!--            <th scope="col">Name</th>-->
-<!--            <th scope="col">Father Name</th>-->
-<!--            <th scope="col">Email</th>-->
-<!--            <th scope="col">Role</th>-->
-<!--            <th scope="col">Date of Birth</th>-->
-<!--          </tr>-->
+<section>
+
+  <table class="table table-light table-striped">
+    <thead>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Role</th>
+      <th scope="col">Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="u : ${allUser}">
+
+      <td th:text="${u.name}"></td>
+      <td th:text="${u.role}"></td>
+      <td>
+
+        <a th:href="@{'/hr/delete_user/' + ${u.Id}}" class="btn btn-danger btn-sm">Delete</a>
+        <a th:href="@{/hr/update_user/}" class="btn btn-success btn-sm text-center">Update</a>
 
 
-<!--      </div>-->
-<!--    </div>-->
-<!--  </div>-->
-<!--</section>-->
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <div class="container text-center">
+  <a th:href="@{/hr/add_staff/}" class="btn btn-success btn-sm text-center">Add Staff</a>
+  </div>
+</section>
 </body>
 </html>

@@ -14,12 +14,13 @@ public interface UserRepository extends JpaRepository<User,Integer> {
     @Query("SELECT u FROM User u WHERE u.verificationCode = ?1")
     public User findByVerificationCode(String code);
 
-    @Query("SELECT u FROM User u WHERE u.role =:role ")
-    public List<User> getAllByRole(@Param("role") String role);
+    public List<User> findByRoleEquals(String role);
 
     Optional<User> findByEmail(String email);
 
     boolean existsByEmail(String email);
+
+
 
 
 }

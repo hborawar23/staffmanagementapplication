@@ -42,9 +42,9 @@ public class UserServiceImpl implements UserService {
 
             return true;
         }
-
-
     }
+
+
     @Override
     public List<User> getAllUsers() {
         return (List<User>) userRepository.findAll();
@@ -52,8 +52,24 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getAllStaff() {
-        return  userRepository.getAllByRole(ConstantUtils.ROLE_STAFF);
+        return  userRepository.findByRoleEquals(ConstantUtils.ROLE_STAFF);
     }
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
 
 
 //    @Override
@@ -86,7 +102,3 @@ public class UserServiceImpl implements UserService {
 //            userRepository.save(user);
 //            sendVerificationEmail(user,siteURL);
 //    }
-
-
-
-}

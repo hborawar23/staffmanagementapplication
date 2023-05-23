@@ -24,14 +24,23 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ml-auto text-uppercase">
             <li class="nav-item active">
-                <a th:href="@{/home}" class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                <a th:href="@{/manager/}" class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#"></a>
             </li>
-
             <li class="nav-item">
-               <a class="nav-link " href="#">Logout</a>
+                <a href="#" class="nav-link"><i class="fa-solid fa-calendar-days"></i>Approve Leaves</a>
+            </li>
+            <li class="nav-item">
+                <a href="#" th:href="@{/manager/modify_project}" class="nav-link"><i class="fa-solid fa-pen-to-square"></i>Modify Staff Project</a>
+            </li>
+            <li class="nav-item">
+                <a href="#" th:href="@{/manager/download_staff_profile}" class="nav-link"><i class="fa-solid fa-address-card"></i>Download Staff Profile</a>
+
+            </li>
+            <li class="nav-item">
+                <a class="nav-link " href="#">Logout</a>
             </li>
 
         </ul>
@@ -40,18 +49,6 @@
 </nav>
 <!---END NAVBAR--->
 
-
-
-<!---SIDEBAR--->
-<div class="sidebar">
-    <span class="crossBtn">&times;</span>
-    <a href="#" class="item"><i class="fa-solid fa-house-chimney"></i>Home</a>
-    <a href="#" class="item"><i class="fa-solid fa-calendar-days"></i>Approve Leaves</a>
-    <a href="#" class="item"><i class="fa-solid fa-pen-to-square"></i>Modify Staff Project</a>
-    <a href="#" th:href="@{/manager/download_staff_profile}" class="item"><i class="fa-solid fa-address-card"></i>Download Staff Profile</a>
-    <div class="divider"></div>
- </div>
-<!---END SIDEBAR--->
 
 <div class="content">
   <i class="fas fa-bars m-3"></i>

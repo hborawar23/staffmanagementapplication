@@ -24,33 +24,39 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ml-auto text-uppercase">
             <li class="nav-item active">
-                <a th:href="@{/home}" class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                <a th:href="@{home}" class="nav-link" href="#"><i class="fa-solid fa-house-chimney"></i>Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#"></a>
+                <a href="#" th:href="@{calendar}" class="nav-link"><i class="fa-solid fa-calendar-days"></i>Publish Calendar</a>
+            </li>
+            <li class="nav-item">
+                <a href="#" th:href="@{modify_staff}" class="nav-link"><i class="fa-solid fa-pen-to-square"></i>Modify Staff</a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link"><i class="fa-solid fa-address-card"></i>Download Staff Profile</a>
             </li>
 
             <li class="nav-item">
-               <a class="nav-link " href="#">Logout</a>
+                <a class="nav-link " href="#">Logout</a>
             </li>
 
         </ul>
 
     </div>
 </nav>
-<!---END NAVBAR--->
+
 
 
 
 <!---SIDEBAR--->
-<div class="sidebar">
-    <span class="crossBtn">&times;</span>
-    <a href="#" class="item"><i class="fa-solid fa-house-chimney"></i>Home</a>
-    <a href="#" th:href="@{/calendar}" class="item"><i class="fa-solid fa-calendar-days"></i>Publish Calendar</a>
-    <a href="#" th:href="@{HR/modify_staff}" class="item"><i class="fa-solid fa-pen-to-square"></i>Modify Staff</a>
-    <a href="#" class="item"><i class="fa-solid fa-address-card"></i>Download Staff Profile</a>
-    <div class="divider"></div>
- </div>
+<!--<div class="sidebar">-->
+<!--    <span class="crossBtn">&times;</span>-->
+<!--    <a href="#" class="item"><i class="fa-solid fa-house-chimney"></i>Home</a>-->
+<!--    <a href="#" th:href="@{/calendar}" class="item"><i class="fa-solid fa-calendar-days"></i>Publish Calendar</a>-->
+<!--    <a href="#" th:href="@{HR/modify_staff}" class="item"><i class="fa-solid fa-pen-to-square"></i>Modify Staff</a>-->
+<!--    <a href="#" class="item"><i class="fa-solid fa-address-card"></i>Download Staff Profile</a>-->
+<!--    <div class="divider"></div>-->
+<!-- </div>-->
 <!---END SIDEBAR--->
 
 <!---CONTENT AREA--->
