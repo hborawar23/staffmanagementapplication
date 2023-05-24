@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="HR/base::Layout(~{::section})"
+      xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <div class="my-card mt-3">
+                    <h2 class="text-center">Holiday Details</h2>
+                    <form action=""  method="post" th:action="@{/hr/process_add_holiday}" th:object="${holiday}">
+
+                        <div class="mb-3">
+                            <label>Date</label>
+                            <input type="date" name="date" class="form-control" placeholder="Enter Date">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Remarks">Remarks</label>
+                            <input
+                                    name="remark"
+                                    type="text"
+                                    class="form-control"
+                                    id="Remarks"
+                                    placeholder="Enter Remark"
+                                    required
+
+                            />
+                        </div>
+
+                            <div class="container text-center mt-3">
+                                <button type="submit" class="btn bg-primary text-white">
+                                    Add
+                                </button>
+                            </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+</body>
+</html>

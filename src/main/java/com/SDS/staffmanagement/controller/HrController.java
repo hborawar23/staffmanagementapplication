@@ -1,7 +1,11 @@
 package com.SDS.staffmanagement.controller;
+import com.SDS.staffmanagement.entities.HolidayCalender;
 import com.SDS.staffmanagement.entities.User;
 import com.SDS.staffmanagement.helper.Message;
+import com.SDS.staffmanagement.helper.UserExcelExporter;
+import com.SDS.staffmanagement.repositories.HolidayCalenderRepository;
 import com.SDS.staffmanagement.repositories.UserRepository;
+import com.SDS.staffmanagement.services.HolidayCalenderService;
 import com.SDS.staffmanagement.services.UserService;
 import org.apache.xmlbeans.impl.xb.xsdschema.Attribute;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +18,10 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.mail.Multipart;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
@@ -30,6 +36,12 @@ public class HrController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private HolidayCalenderService holidayCalenderService;
+
+    @Autowired
+    private HolidayCalenderRepository holidayCalenderRepository;
 
     @RequestMapping("/")
     public String view_dashboard(Model model)
@@ -114,6 +126,68 @@ public class HrController {
         System.out.println("User Name" + user.getName());
         return "";
     }
+
+    @GetMapping("/download_staff_profile")
+    public String getAllStaff(Model model) {
+        model.addAttribute("title", "HR - Download Staff Profile");
+        List<User> allStaff = userService.getAllUsers();
+        model.addAttribute("allStaff", allStaff);
+        return "HR/download_staff_profile";
+    }
+
+    @GetMapping("/download")
+    public void exportToExcel(HttpServletResponse response) throws IOException {
+        response.setContentType("application/octet-stream");
+        String headerKey = "Content-Disposition";
+
+        String headerValue = "attachment; filename=users.xlsx";
+
+        response.setHeader(headerKey, headerValue);
+
+        List<User> listUsers = userService.getAllStaff();
+
+        UserExcelExporter excelExporter = new UserExcelExporter(listUsers);
+        excelExporter.export(response);
+    }
+
+    @GetMapping("/calendar")
+    public String calendar(Model model){
+        model.addAttribute("title", "HR - Calendar");
+        List<HolidayCalender> allHolidays = holidayCalenderService.getAllHolidays();
+        model.addAttribute("allHolidays",allHolidays);
+        return "HR/calendar";
+    }
+
+    @GetMapping("/add_holiday")
+    public String add_holiday(Model model) {
+        model.addAttribute("title", "HR - Add Holiday");
+        model.addAttribute("holiday", new HolidayCalender());
+        return "/HR/add_holiday";
+    }
+
+    @PostMapping("/process_add_holiday")
+    public String process_add_staff(Model model,@ModelAttribute("holiday") HolidayCalender holidayCalender,HttpSession session){
+        holidayCalenderService.addHoliday(holidayCalender);
+        model.addAttribute("holiday",new HolidayCalender());
+        session.setAttribute("message",new Message("New Holiday added Successfully","alert-success"));
+        return "/HR/add_holiday";
+
+    }
+
+    @GetMapping("/delete_holiday/{id}")
+    public String deleteHoliday(@PathVariable("id") Integer Id) {
+
+        Optional<HolidayCalender> byId = holidayCalenderRepository.findById(Id);
+
+        if (byId.isPresent()) {
+            HolidayCalender holidayCalender = byId.get();
+            holidayCalenderRepository.delete(holidayCalender);
+            return  "/HR/calendar";
+
+        }
+        return "/HR/calendar";
+    }
+
 
 
 

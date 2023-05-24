@@ -60,7 +60,7 @@ public class  MyConfig extends WebSecurityConfigurerAdapter {
 
 //    @Override
 //    protected void configure(HttpSecurity http) throws Exception {
-//        http.authorizeRequests().antMatchers("/staff/**").hasRole("STAFF")
+//        http.authorizeRequests().antMatchers("/staff/**").hasRole("STAFF ")
 //                .antMatchers("/manager/**").hasRole("MANAGER")
 //                .antMatchers("/**").permitAll()
 //                .and()
