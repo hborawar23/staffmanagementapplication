@@ -6,32 +6,23 @@
     <title>Title</title>
 </head>
 <body>
-<section>
-    <table class="table table-light table-striped">
-        <thead>
-        <tr>
-            <th scope="col">Id</th>
-            <th scope="col">Project Name</th>
-            <th scope="col">Description</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="p : ${projects}">
+    <section>
+        <table class="table table-light table-striped">
+            <thead>
+            <tr>
 
-            <td th:text="${p.projectId}"></td>
-            <td th:text="${p.name}"></td>
-            <td th:text="${p.projectDescription}"></td>
-            <td>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+                <th scope="col">Project Name</th>
+                <th scope="col">Description</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="p : ${projects}">
 
-    <div class="text-center">
-
-    </div>
-
-
-</section>
+                <td th:text="${p.name}"></td>
+                <td th:text="${p.projectDescription}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
 </body>
 </html>

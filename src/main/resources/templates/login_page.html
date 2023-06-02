@@ -12,34 +12,36 @@
         <div class="login-row">
             <div class="col-md-6 offset-md-3">
                 <div class="card">
-                            <h3 class="text-center text-info">Login</h3>
-                            <div th:if="${param.error}" class="alert alert-danger">
-                                Invalid Email and Password
-                            </div>
+                    <h3 class="text-center text-info">Login</h3>
 
-                            <div th:if="${param.logout}" class="alert alert-success">
+                    <div th:if="${param.error}" class="alert alert-danger">
+                                Invalid Email and Password
+                    </div>
+
+                    <div th:if="${param.logout}" class="alert alert-success">
                                 you have been logged out
-                            </div>
+                    </div>
+
                     <div class="card-body">
                         <form id="login-form" class="form" th:action="@{login}" method="post">
+
                             <div class="form-group mb-3">
                                 <label for="email">Email</label>
-                                <input type="username" class="form-control" id="email" aria-describedby="userHelp" placeholder="Username" name="username">
+                                <input type="username" class="form-control" id="email" aria-describedby="userHelp"
+                                       placeholder="Username" name="username">
                             </div>
+
                             <div class="form-group mb-3">
                                 <label for="password">Password</label>
                                 <input type="password" class="form-control" id="password" placeholder="Password" name="password">
                             </div>
 
-                            <button class="btn btn-info col-md-12">Login</button>
-<!--                            <div class="text-center">-->
-<!--                                <input type="submit" name="submit" class="btn btn-info btn-md" value="Login">-->
-<!--                            </div>-->
+                            <button type="submit" class="btn btn-info col-md-12">Login</button>
 
                             <div class="text-center">
                                 <p>Not a member? <a th:href="@{/signup}">Register</a></p>
-
                             </div>
+
                         </form>
                     </div>
                 </div>

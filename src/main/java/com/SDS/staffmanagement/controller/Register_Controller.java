@@ -24,6 +24,9 @@ public class Register_Controller {
     @Autowired
     private EmailService emailService;
 
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
     //handler for registering user
     @PostMapping("/do_register")
     public String registerUser(@Valid @ModelAttribute("user") User user, Model model, @RequestParam(value = "agreement",defaultValue = "false")boolean agreement, BindingResult result, HttpSession session) {
@@ -47,9 +50,10 @@ public class Register_Controller {
                     return "signup";
                 }
             }
-            user.setPassword(UUID.randomUUID().toString());
+            user.setPassword(bCryptPasswordEncoder.encode("1234"));
             userService.addUser(user);
             emailService.sendEmail(user.getEmail());
+
             //send email
             model.addAttribute("user",new User());
             session.setAttribute("message",new Message("Registration Successful","alert-success"));

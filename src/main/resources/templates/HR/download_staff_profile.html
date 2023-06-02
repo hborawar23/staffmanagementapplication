@@ -1,20 +1,17 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="HR/base::Layout(~{::section})"
-      xmlns="http://www.w3.org/1999/html">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="HR/base::Layout(~{::section})" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
 <section>
-
     <table class="table table-light table-striped">
         <thead>
         <tr>
             <th scope="col">Id</th>
             <th scope="col">Name</th>
             <th scope="col">Role</th>
-
         </tr>
         </thead>
         <tbody>
@@ -22,7 +19,6 @@
             <td th:text="${u.id}"></td>
             <td th:text="${u.name}"></td>
             <td th:text="${u.role}"></td>
-
         </tr>
         </tbody>
     </table>
@@ -32,3 +28,4 @@
 </section>
 </body>
 </html>
+

@@ -1,13 +1,12 @@
-console.log("this is script file")
+let btn1 = document.getElementById('btn1');
+let checkIn = document.getElementById('date1');
+btn1.addEventListener('click', minDate);
 
-const toggleSidebar = () => {
- if($('.sidebar').is(":visible")){
+function minDate(){
+    let nowDate = new Date;
+    if(checkIn.value < Date){
 
-  $(".sidebar").css("display","none");
-  $(".content").css("margin-left","0%");
- }else{
-  $(".sidebar").css("display","block");
-  $(".content").css("margin-left","20%");
+        alert("invalid date")
+    }
+
 }
-
-};

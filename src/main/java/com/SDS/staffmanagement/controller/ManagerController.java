@@ -1,12 +1,17 @@
 package com.SDS.staffmanagement.controller;
+import com.SDS.staffmanagement.entities.LeaveHistory;
 import com.SDS.staffmanagement.entities.Project;
 import com.SDS.staffmanagement.entities.User;
 import com.SDS.staffmanagement.helper.UserExcelExporter;
+import com.SDS.staffmanagement.repositories.LeaveRepository;
 import com.SDS.staffmanagement.repositories.ProjectRepository;
 import com.SDS.staffmanagement.repositories.UserRepository;
+import com.SDS.staffmanagement.services.EmailService;
+import com.SDS.staffmanagement.services.LeaveService;
 import com.SDS.staffmanagement.services.ProjectService;
 import com.SDS.staffmanagement.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,8 +37,16 @@ public class ManagerController {
     private UserRepository userRepository;
 
     @Autowired
-
     private UserService userService;
+
+    @Autowired
+    private LeaveService leaveService;
+
+    @Autowired
+    private LeaveRepository leaveRepository;
+
+    @Autowired
+    private EmailService emailService;
 
     @GetMapping("/")
     public String dashboard() {
@@ -71,8 +85,8 @@ public class ManagerController {
     }
 
     @GetMapping("/show_project/{id}")
-    public String showProject(Model model, @PathVariable("id")int Id){
-        Optional<User> byId = userRepository.findById(Id);
+    public String showProject(Model model, @PathVariable("id")int id){
+        Optional<User> byId = userRepository.findById(id);
         if (byId.isPresent())
         {
             User user = byId.get();
@@ -102,11 +116,13 @@ public class ManagerController {
     @PostMapping("/add_project_form/{id}")
     public String addProjectForm(Model model,  @PathVariable("id") int Id, @ModelAttribute("project") Project project, HttpSession session)
     {
-        projectService.addProject(project);
         Optional<User> byId = userRepository.findById(Id);
         if(byId.isPresent()){
             User user = byId.get();
-            user.setProjects((List<Project>) project);
+            project.setUser(user);
+            user.getProjects().add(project);
+            userRepository.save(user);
+            emailService.sendProjectEmail(user.getEmail(),project);
             model.addAttribute("user",user);
             model.addAttribute("project",new Project());
             return "Manager/add_project";
@@ -116,6 +132,40 @@ public class ManagerController {
         return "Manager/add_project";
     }
 
+    @GetMapping("/approve_leaves")
+    public String approve_leave(Model model){
+        model.addAttribute("title", "Manager - Approve Leaves");
+        List<LeaveHistory> leaveHistoryList = leaveService.getAllLeaves();
+        model.addAttribute("allLeaves", leaveHistoryList);
+        return "/Manager/approve_leaves";
+    }
+
+    @GetMapping("/process_approve/{id}")
+    public String process_approve(@PathVariable("id") int id, Model model, Principal principal){
+        System.out.println(id);
+        String userName = principal.getName();
+        User user = userRepository.getUserByUserName(userName);
+//        Optional<LeaveHistory> byId = leaveRepository.findById(id);
+
+        Optional<LeaveHistory> byId = leaveRepository.findById(id);
+        if (byId.isPresent()){
+            LeaveHistory leaveHistory = byId.get();
+            System.out.println(leaveHistory);
+            leaveHistory.setIsApproved(true);
+            leaveHistory.setApprovedBy(user.getName());
+            leaveRepository.save(leaveHistory);
+            emailService.sendProjectApprovedEmail(user,leaveHistory);
+            model.addAttribute("title", "Manager - Approve Leaves");
+            List<LeaveHistory> leaveHistoryList = leaveService.getAllLeaves();
+
+            model.addAttribute("allLeaves", leaveHistoryList);
+            return "/Manager/approve_leaves";
+        }
+        model.addAttribute("title", "Manager - Approve Leaves");
+        List<LeaveHistory> leaveHistoryList = leaveService.getAllLeaves();
+        model.addAttribute("allLeaves", leaveHistoryList);
+        return "/Manager/approve_leaves";
+    }
 }
 
 

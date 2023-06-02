@@ -116,15 +116,39 @@ public class HrController {
     @PostMapping("/process_update")
     public String updateHandler(@ModelAttribute User user,HttpSession session,Model model,Principal principal  )
     {
-        try {
-
-            User user1= this.userRepository.getUserByUserName(principal.getName());
-
-        } catch (Exception e){
-
+        Optional<User> byId = userRepository.findById(user.getId());
+        System.out.println(user.getId() + "-----------------------");
+        if(byId.isPresent()){
+            User user1 = byId.get();
+            user1.setName(user.getName());
+            user1.setFatherName(user.getFatherName());
+            user1.setMotherName(user.getMotherName());
+            user1.setEmail(user.getEmail());
+            user1.setGender(user.getGender());
+            user1.setPhoto(user.getPhoto());
+            user1.setRole(user.getRole());
+            user1.setDob(user.getDob());
+            user1.setPermanentAddress(user.getPermanentAddress());
+            user1.setPresentAddress(user.getPresentAddress());
+            user1.setIdentityProof(user.getIdentityProof());
+            user1.setMobileNumber(user.getMobileNumber());
+            userRepository.save(user1);
+            model.addAttribute("title","Admin Dashboard");
+            return "/HR/hr_dashboard";
         }
-        System.out.println("User Name" + user.getName());
-        return "";
+        model.addAttribute("title","Admin Dashboard");
+        return "/HR/hr_dashboard";
+
+
+//        try {
+//
+//            User user1= this.userRepository.getUserByUserName(principal.getName());
+//
+//        } catch (Exception e){
+//
+//        }
+//        System.out.println("User Name" + user.getName());
+//        return "";
     }
 
     @GetMapping("/download_staff_profile")

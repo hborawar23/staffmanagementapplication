@@ -22,8 +22,7 @@
 <!--                    </div>-->
 
                     <h2 class="text-center">Update Staff</h2>
-                    <form action="#"
-                          method="post"
+                    <form method="post"
                           th:action="@{/hr/process_update}"
                           th:object="${user}"
                           enctype="multipart/form-data"
@@ -114,11 +113,18 @@
 <!--                                <option value="O-">O-</option>-->
 <!--                            </select>-->
 
+
                             <!---Photo-->
                             <div class="form-group">
                                 <label for="exampleFormControlFile1">Upload Photograph</label>
-                                <input th:src="@{'/img/'+${user.photo}}" name="photo" type="file" class="form-control-file" id="exampleFormControlFile1">
+                                <input id="exampleFormControlFile1" type="file"
+                                       name="identityProof" class="form-control" th:src="@{$user.photo}">
+
+<!--                                <input th:src="@{'/img/'+${user.photo}}" name="photo"-->
+<!--                                       type="file" class="form-control-file"-->
+<!--                                       id="exampleFormControlFile1" >-->
                             </div>
+
 
                             <!---Role--->
                             <div class="form-group">
@@ -132,7 +138,8 @@
                             <!---DOB-->
                             <div class="mb-3">
                                 <label>DOB</label>
-                                <input type="date" name="dob" class="form-control" placeholder="Enter DOB">
+                                <input type="date" name="dob" class="form-control" placeholder="Enter DOB"
+                                th:value="${user.dob}">
                             </div>
 
 
@@ -153,16 +160,26 @@
 
                             <!---Identity proof--->
                             <label>Identity Proof</label>
-                            <div class="input-group mb-3 ">
-                                <div class="custom-file">
-                                    <input name="identityProof" type="file" class="custom-file-input" id="inputGroupFile02">
-                                    <label class="custom-file-label" for="inputGroupFile02">Choose file</label>
-                                </div>
-                            </div>
+                             <input type="file" name="identityProof" class="form-control" th:src="@{$user.photo}">
+<!--                            <div class="input-group mb-3 ">-->
+<!--                                <div class="custom-file">-->
+<!--                                    <input name="identityProof" type="file" class="custom-file-input" id="inputGroupFile02"-->
+<!--                                           th:src="@{$user.photo}">-->
+<!--                                    <label class="custom-file-label" for="inputGroupFile02">Choose file</label>-->
+
+
+<!--                                </div>-->
+<!--                            </div>-->
 
                             <!---Mobile number--->
                             <div class="input-group mb-3 ">
-                                <input  name="mobileNumber" type="text" id="UserMobile" maxlength="20" data-fv-numeric="true" data-fv-numeric-message="Please enter valid phone numbers" data-fv-phone-country11="IN" required="required" data-fv-notempty-message="This field cannot be left blank." placeholder="Mobile No. " class="form-control"  data-fv-field="data[User][mobile]">
+                                <input  name="mobileNumber" type="text"
+                                        id="UserMobile" maxlength="20" th:value="${user.mobileNumber}"
+                                        data-fv-numeric="true"
+                                        data-fv-numeric-message="Please enter valid phone numbers"
+                                        data-fv-phone-country11="IN"
+                                        required="required" data-fv-notempty-message="This field cannot be left blank."
+                                        placeholder="Mobile No. " class="form-control"  data-fv-field="data[User][mobile]">
 
                             </div>
 

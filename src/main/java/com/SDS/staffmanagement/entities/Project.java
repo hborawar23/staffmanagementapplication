@@ -17,7 +17,7 @@ public class Project {
     private String projectDescription;
 
     @ManyToOne
-    @JoinColumn(name = "project")
+    @JoinColumn(name = "user_project_key_id")
     @JsonBackReference
     private User user;
 

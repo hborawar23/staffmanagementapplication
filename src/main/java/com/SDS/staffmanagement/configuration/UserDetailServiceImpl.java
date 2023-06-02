@@ -13,7 +13,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
         //fetching user from database
         System.out.println("Inside UserDetailService */*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*");
         User user = userRepository.getUserByUserName(username);
-        System.out.println(user + "***********+++++++++++++++");
+        System.out.println(user.getEmail() + "***********+++++++++++++++");
         if(user==null)
         {
             throw new UsernameNotFoundException("Could not found user!!");
