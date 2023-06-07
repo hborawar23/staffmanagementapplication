@@ -18,6 +18,8 @@ public class LeaveHistory {
 
     private String fromDate;
 
+    private String leaveType;
+
     private String toDate;
 
     private String description;
@@ -26,8 +28,12 @@ public class LeaveHistory {
 
     private String approvedBy;
 
+    private long currentMonthLeaves;
+
+    private int totalLeaves;
+
     @ManyToOne
-    @JoinColumn(name = "user_leave_key_id")
+    @JoinColumn(name = "user_id")
     @JsonBackReference
     private User user;
 

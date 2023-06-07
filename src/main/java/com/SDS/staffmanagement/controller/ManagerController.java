@@ -21,6 +21,8 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.security.Principal;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 
@@ -150,7 +152,6 @@ public class ManagerController {
         Optional<LeaveHistory> byId = leaveRepository.findById(id);
         if (byId.isPresent()){
             LeaveHistory leaveHistory = byId.get();
-            System.out.println(leaveHistory);
             leaveHistory.setIsApproved(true);
             leaveHistory.setApprovedBy(user.getName());
             leaveRepository.save(leaveHistory);
@@ -160,12 +161,25 @@ public class ManagerController {
 
             model.addAttribute("allLeaves", leaveHistoryList);
             return "/Manager/approve_leaves";
+
         }
         model.addAttribute("title", "Manager - Approve Leaves");
         List<LeaveHistory> leaveHistoryList = leaveService.getAllLeaves();
         model.addAttribute("allLeaves", leaveHistoryList);
         return "/Manager/approve_leaves";
     }
+
+    @GetMapping("/delete/{id}")
+    public String deleteProject(@PathVariable("id") Integer Id,Model model) {
+        Optional<Project> byId = projectRepository.findById(Id);
+        if (byId.isPresent()) {
+            Project project = byId.get();
+            projectRepository.delete(project);
+            return "redirect:/manager/modify_project";
+        }
+        return "redirect:/manager/modify_project";
+    }
+
 }
 
 

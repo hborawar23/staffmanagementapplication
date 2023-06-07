@@ -9,4 +9,6 @@ public interface LeaveService {
     void addLeave(LeaveHistory leaveHistory);
 
     List<LeaveHistory> getAllLeaves();
+
+
 }

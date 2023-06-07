@@ -13,10 +13,14 @@ public interface UserService {
 
     Optional<User> findUser(String email);
 
+    Optional<User> findUserById(int id);
+
     boolean existsUserByEmail(String email);
     boolean verify(String verificationCode);
 
     List<User> getAllUsers();
+
+
 
     List<User> getAllStaff();
 

@@ -9,4 +9,6 @@ public interface HolidayCalenderService {
     void addHoliday(HolidayCalender holidayCalender);
 
     List<HolidayCalender> getAllHolidays();
+
+
 }
