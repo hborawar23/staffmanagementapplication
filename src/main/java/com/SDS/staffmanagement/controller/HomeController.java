@@ -15,29 +15,25 @@ public class HomeController {
     @Autowired
     private EmailService emailService;
 
+    @Autowired
     private UserService userService;
-
-
     @RequestMapping("/")
     public String home(Model model) {
         model.addAttribute("title", "Home - Staff Management System");
         return "home";
     }
-
     @RequestMapping("/signup")
     public String about(Model model) {
         model.addAttribute("title", "Register - Staff Management System");
         model.addAttribute("user", new User());
         return "signup";
     }
-
     //To get the login page
     @RequestMapping("/login")
     public String login(Model model){
         model.addAttribute("title","Login-Staff Management System");
         return "login_page";
     }
-
     @RequestMapping(value = "/confirm-account")
     public String confirmUserAccount(Model model, @RequestParam("token") String confirmationToken) {
         if (emailService.confirmUser(confirmationToken)) {
@@ -47,9 +43,5 @@ public class HomeController {
         model.addAttribute("notSuccess", "your email is not verified");
          return "verify-fail.html";
     }
-
-
-
-
 }
 

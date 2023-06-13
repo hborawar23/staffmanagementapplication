@@ -22,108 +22,107 @@
           </div>
 
           <h2 class="text-center">Register Here</h2>
-          <form action=""  method="post" th:action="@{/register/do_register}" th:object="${user}">
+          <form action="#"
+                enctype="multipart/form-data"
+                method="post"
+                th:action="@{/register/do_register}"
+                th:object="${user}">
             <!--First Name Field-->
             <div class="form-group">
-              <label for="Name_Field">Full Name</label>
-              <input
-                      name="name"
+              <label for="Name_Field" class="form-label">Full Name</label>
+              <input  name="name"
                       type="text"
                       class="form-control"
+                      th:classappend="${#fields.hasErrors('name') ? 'is-invalid' : ' '}"
                       id="Name_Field"
                       placeholder="Enter Your Name Here"
-                      required
+                      aria-describedby="emailHelp"
                       th:value="${user.name}"
-              />
+                      required>
+                    <div th:each="e:${#fields.errors('name')}" th:text="${e}" class="invalid-feedback">
+                    </div>
             </div>
+
             <!---Father's Name--->
             <div class="form-group">
-              <label for="Father_Name_Field">Father Name</label>
+              <label for="Father_Name_Field" class="form-label">Father Name</label>
               <input
                       name="fatherName"
                       type="text"
                       class="form-control"
+                      th:classappend="${#fields.hasErrors('fatherName') ? 'is-invalid' : ' '}"
                       id="Father_Name_Field"
                       placeholder="Enter Father's Name Here"
-                      required
                       th:value="${user.fatherName}"
-              />
+                      required
+                      >
+                     <div th:each="e:${#fields.errors('fatherName')}" th:text="${e}" class="invalid-feedback">
+                     </div>
             </div>
             <!---Mother's Name--->
             <div class="form-group">
-              <label for="Mother_Name_Field">Mother Name</label>
+              <label for="Mother_Name_Field" class="form-label">Mother Name</label>
               <input
                       name="motherName"
                       type="text"
                       class="form-control"
+                      th:classappend="${#fields.hasErrors('motherName') ? 'is-invalid' : ' '}"
                       id="Mother_Name_Field"
                       placeholder="Enter Mother's Name Here"
                       required
-                      th:value="${user.motherName}"
-              />
+                      th:value="${user.motherName}">
+              <div th:each="e:${#fields.errors('motherName')}" th:text="${e}" class="invalid-feedback">
+              </div>
             </div>
             <!--Email Field-->
             <div class="form-group">
-              <label for="Email_Field">Email Id</label>
-              <input
-                      name="email"
+              <label for="Email_Field" class="form-label">Email </label>
+              <input  name="email"
                       type="email"
                       class="form-control"
+                      th:classappend="${#fields.hasErrors('email') ? 'is-invalid' : ' '}"
                       id="Email_Field"
-                      placeholder="Enter Here"
-                      required
+                      aria-describedby="emailHelp"
+                      placeholder="Enter you email here"
                       th:value="${user.email}"
-              />
+                      required>
+                       <div th:each="e:${#fields.errors('email')}" th:text="${e}" class="invalid-feedback">
+                       </div>
             </div>
             <!---Gender--->
-            <label>Gender</label>
+            <label class="form-label">Gender</label>
             <div class="form-check">
-              <input name="gender" class="form-check-input" type="radio"  id="exampleRadios1" value="Male" checked th:value="${user.gender}">
+              <input name="gender" class="form-check-input" type="radio"  id="exampleRadios1" th:value="'Male'" required>
               <label class="form-check-label" for="exampleRadios1">
                 Male
               </label>
               </div>
 
             <div class="form-check">
-              <input  name="gender" class="form-check-input" type="radio"  id="exampleRadios2" value="Female">
+              <input  name="gender" class="form-check-input" type="radio"  id="exampleRadios2"  th:value="'Female'" required>
               <label class="form-check-label" for="exampleRadios2">
                 Female
               </label>
             </div>
 
-            <!--Blood Group--->
-            <form class="form-inline">
-              <label class="my-1 mr-2" for="BloodGroup">Blood Group  </label>
-              <select name ="bloodGroup" class="custom-select my-1 mr-sm-2" id="BloodGroup">
-                <option selected>Choose...</option>
-                <option value="A+">A+</option>
-                <option value="A-">A-</option>
-                <option value="B+">B+</option>
-                <option value="B-">B-</option>
-                <option value="AB+">AB+</option>
-                <option value="AB-">AB-</option>
-                <option value="O+">O+</option>
-                <option value="O-">O-</option>
-              </select>
+
 
             <!---Photo-->
-            <div class="form-group">
-              <label for="exampleFormControlFile1">Upload Photograph</label>
-              <input name="photo" type="file" class="form-control-file" id="exampleFormControlFile1">
-            </div>
+
 
             <!---Role--->
             <div class="form-group">
-              <label for="Role">Select Role </label>
-              <select name="role" class="form-control" id="Role">
-                <option>ROLE_MANAGER</option>
+              <label for="Role" class="form-label">Select Role </label>
+              <select name="role" class="form-control" id="Role" >
                 <option>ROLE_STAFF</option>
               </select>
             </div>
 
+
+
              <!---DOB-->
               <div class="mb-3">
-                <label>DOB</label>
+                <label  class="form-label">DOB</label>
                 <input type="date" name="dob" class="form-control" placeholder="Enter DOB">
               </div>
 
@@ -143,18 +142,36 @@
               <textarea name="presentAddress" class="form-control mb-3" aria-label="Address"></textarea>
             </div>
 
+
             <!---Identity proof--->
-            <label>Identity Proof</label>
-            <div class="input-group mb-3 ">
-              <div class="custom-file">
-                <input name="identityProof" type="file" class="custom-file-input" id="inputGroupFile02">
-                <label class="custom-file-label" for="inputGroupFile02">Choose file</label>
-              </div>
+            <div class="mb-3">
+              <label for="exampleInputGovernmentId1" class="form-label">Aadhaar Number</label>
+              <input type="text"
+                     name="identityProof"
+                     class="form-control"
+
+                     id="exampleInputGovernmentId1"
+                     aria-describedby="emailHelp"
+
+                     required>
+
             </div>
 
               <!---Mobile number--->
               <div class="input-group mb-3 ">
-              <input name="mobileNumber" type="text" id="UserMobile" maxlength="20" data-fv-numeric="true" data-fv-numeric-message="Please enter valid phone numbers" data-fv-phone-country11="IN" required="required" data-fv-notempty-message="This field cannot be left blank." placeholder="Mobile No. " class="form-control"  data-fv-field="data[User][mobile]">
+              <label for="mobileNumber" class="form-label mr-2"> Mobile Number </label>
+
+              <input  type="text"
+                      name="mobileNumber"
+                      class="form-control"
+                      th:classappend="${#fields.hasErrors('mobileNumber') ? 'is-invalid' : ' '}"
+                      id="mobileNumber"
+                      placeholder="mobile number"
+                      aria-describedby="emailHelp"
+                      th:value="${user.mobileNumber}"
+                      required>
+                <div th:each="e:${#fields.errors('mobileNumber')}" th:text="${e}" class="invalid-feedback">
+                </div>
 
               </div>
 

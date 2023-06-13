@@ -21,4 +21,5 @@ public interface LeaveRepository extends JpaRepository<LeaveHistory,Integer> {
 
     public List<LeaveHistory> findLeaveByUser(int id);
 
+
 }

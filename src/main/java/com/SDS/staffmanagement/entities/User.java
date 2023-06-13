@@ -7,6 +7,9 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @Entity
@@ -18,6 +21,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+
     private String dob;
 
 //    @Column(name = "verification_code", length = 64)
@@ -32,29 +36,35 @@ public class User {
     private ConfirmationTokenEntity confirmationTokenEntity;
 
     @NotBlank(message = "Name field is required !!")
+    @Size(min = 3, max = 25, message = "name should between 3 to 20 characters !!")
     private String name;
 
     @NotBlank(message = "Father Name field is required !!")
     private String fatherName;
+
     @NotBlank(message = "Mother Name field is required !!")
     private String motherName;
 
+    @Column(unique = true)
+    @NotBlank
+    @Pattern(regexp = "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$", message = "invalid email!!")
     private String email;
 
-    private String bloodGrp;
-
     private String gender;
-
-    private String photo;
 
     private String role;
 
     private String identityProof;
 
+    @NotBlank
     private String permanentAddress;
 
+    @NotBlank
     private String presentAddress;
 
+    @NotNull
+    @Size(min = 10,max = 10)
+    @Pattern(regexp = "^(\\+91[\\-\\s]?)?[0]?(91)?[789]\\d{9}$", message = "invalid contact")
     private String mobileNumber;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
@@ -64,15 +74,9 @@ public class User {
 //    @Column(columnDefinition="String default Null")
     private String skillExperience;
 
-//    @Column(columnDefinition="String default Null")
-    private String dateOfJoining;
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    @JsonManagedReference
-    private List<Project> projects;
-
-
-
+//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+//    @JsonManagedReference
+//    private List<Project> projects;
 
 
 }

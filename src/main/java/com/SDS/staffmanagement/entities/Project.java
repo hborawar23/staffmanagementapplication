@@ -1,17 +1,26 @@
 package com.SDS.staffmanagement.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Table
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
 public class Project {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int projectId;
 
+    @NotEmpty
     private  String name;
 
     private String projectDescription;
@@ -21,53 +30,11 @@ public class Project {
     @JsonBackReference
     private User user;
 
-    public Project() {
-    }
+    @ManyToOne
+    @JoinColumn(name = "manager_id")
+    @JsonBackReference
+    private Manager manager;
 
-    @Override
-    public String toString() {
-        return "Project{" +
-                "id=" + projectId +
-                ", projects='" + name + '\'' +
-                ", projectDescription='" + projectDescription + '\'' +
-                '}';
-    }
 
-    public User getUser() {
-        return user;
-    }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Project(int id, String name, String projectDescription) {
-        this.projectId = id;
-        this.name = name;
-        this.projectDescription = projectDescription;
-    }
-
-    public int getId() {
-        return projectId;
-    }
-
-    public void setId(int id) {
-        this.projectId = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getProjectDescription() {
-        return projectDescription;
-    }
-
-    public void setProjectDescription(String projectDescription) {
-        this.projectDescription = projectDescription;
-    }
 }

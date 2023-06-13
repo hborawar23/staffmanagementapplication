@@ -4,6 +4,7 @@ import com.SDS.staffmanagement.helper.Message;
 import com.SDS.staffmanagement.services.EmailService;
 import com.SDS.staffmanagement.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.repository.query.Param;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -11,8 +12,16 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.mail.Multipart;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.UUID;
 
 @Controller
@@ -29,41 +38,12 @@ public class Register_Controller {
 
     //handler for registering user
     @PostMapping("/do_register")
-    public String registerUser(@Valid @ModelAttribute("user") User user, Model model, @RequestParam(value = "agreement",defaultValue = "false")boolean agreement, BindingResult result, HttpSession session) {
-        System.out.println(user + "My User Details..........................................................");
+    public String registerUser(@Valid @ModelAttribute("user") User user, Model model, @RequestParam(value = "agreement",defaultValue = "false")boolean agreement, @RequestParam("pic") MultipartFile file, BindingResult result, HttpSession session) throws Exception {
         try {
-            if(!agreement)
-            {
-                System.out.println("You have not agreed the terms and conditions");
-                throw new Exception("You have not agreed the terms and conditions");
-            }
-            if (result.hasErrors()){
-                model.addAttribute("user",user);
-                return "signup";
-            }
-            //To check if the user already exist with th given email
-            if(userService.existsUserByEmail(user.getEmail()))
-            {
-                result.addError(new FieldError("user", "email", "an account is already registered with this email address. try with another one!"));
-                if (result.hasErrors()) {
-                    model.addAttribute("user", user);
-                    return "signup";
-                }
-            }
-            user.setPassword(bCryptPasswordEncoder.encode("1234"));
-            userService.addUser(user);
-            emailService.sendEmail(user.getEmail());
-
-            //send email
-            model.addAttribute("user",new User());
-            session.setAttribute("message",new Message("Registration Successful","alert-success"));
-            return "signup";
-        }catch(Exception e) {
+            userService.registerUser(user, agreement, file, result, model,session);
+        } catch (Exception e){
             e.printStackTrace();
-            model.addAttribute("user",user);
-            session.setAttribute("message", new Message("Something went wrong !"+e.getMessage(),"alert-error"));
-            return "signup";
         }
+            return "signup";
     }
-//
 }

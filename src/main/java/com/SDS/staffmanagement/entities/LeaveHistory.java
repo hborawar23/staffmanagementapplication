@@ -30,7 +30,7 @@ public class LeaveHistory {
 
     private long currentMonthLeaves;
 
-    private int totalLeaves;
+    private double totalLeaves;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

@@ -9,13 +9,13 @@ import org.springframework.mail.javamail.JavaMailSender;
 
 public interface EmailService {
 
-    void sendEmail(String email);
+    void sendEmail(String email,String password);
 
     boolean confirmUser(String confirmationToken);
 
-    void sendProjectEmail(String email, Project project);
-
-    void sendProjectApprovedEmail(User user, LeaveHistory leaveHistory);
+//    void sendProjectEmail(String email, Project project);
+//
+//    void sendProjectApprovedEmail(User user, LeaveHistory leaveHistory);
 
 
 }

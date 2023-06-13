@@ -5,5 +5,5 @@ import com.SDS.staffmanagement.entities.User;
 
 public interface ProjectService {
 
-    void addProject(Project project);
+//    void addProject(Project project);
 }
