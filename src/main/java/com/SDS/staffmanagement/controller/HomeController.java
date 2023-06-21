@@ -8,7 +8,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 @Controller
 public class HomeController {
 
@@ -28,8 +27,7 @@ public class HomeController {
         model.addAttribute("user", new User());
         return "signup";
     }
-    //To get the login page
-    @RequestMapping("/login")
+    @RequestMapping("/signin")
     public String login(Model model){
         model.addAttribute("title","Login-Staff Management System");
         return "login_page";

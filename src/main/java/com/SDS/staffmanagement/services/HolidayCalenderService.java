@@ -10,5 +10,7 @@ public interface HolidayCalenderService {
 
     List<HolidayCalender> getAllHolidays();
 
+    boolean isHolidayAlreadyExist(HolidayCalender holidayCalender);
+
 
 }

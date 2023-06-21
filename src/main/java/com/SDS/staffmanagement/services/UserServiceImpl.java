@@ -1,24 +1,21 @@
 package com.SDS.staffmanagement.services;
 import com.SDS.staffmanagement.commonUtils.ConstantUtils;
+import com.SDS.staffmanagement.entities.BaseLoginEntity;
 import com.SDS.staffmanagement.entities.User;
 import com.SDS.staffmanagement.helper.Message;
+import com.SDS.staffmanagement.repositories.BaseLoginRepository;
 import com.SDS.staffmanagement.repositories.UserRepository;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
-import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -27,146 +24,177 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
     private UserService userService;
-
     @Autowired
     private EmailService emailService;
-
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    @Autowired
+    private BaseLoginRepository baseLoginRepository;
     @Override
     public void addUser(User user) {
         userRepository.save(user);
     }
     @Override
-    public String registerUser(User user, Boolean agreement, MultipartFile file, BindingResult result, Model model, HttpSession session) throws Exception {
+    public String registerUser(User user, Boolean agreement, BindingResult result, Model model, HttpSession session) throws Exception {
         List<String> errorMsgList =  isValidateUser(user);
+        if(userService.existsUserByEmail(user.getEmail())){
+            errorMsgList.add("Email already exist");
+        }
+        if(userService.existsUserByAadharNumber(user.getIdentityProof())){
+            errorMsgList.add("Aadhar number already exist");
+        }
+        if(userService.existsUserByMobileNumber(user.getMobileNumber())){
+            errorMsgList.add("Mobile number already exist");
+        }
         if(null != errorMsgList && errorMsgList.size()==0){
-
-            if(!agreement)
-            {
+            if(!agreement) {
                 throw new Exception("You have not agreed the terms and conditions");
             }
-            if (result.hasErrors()){
+            if (result.hasErrors()) {
                 model.addAttribute("user",user);
                 return "signup";
             }
-            if(!file.isEmpty()){
-                System.out.println("Image is empty");
-                //if the file is empty then try our message
-               // user.setPhoto(file.getOriginalFilename());
-                File saveFile = new ClassPathResource("static/image").getFile();
-                Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + file.getOriginalFilename());
-                Files.copy(file.getInputStream(),path, StandardCopyOption.REPLACE_EXISTING);
-                System.out.println("Image is uploaded");
-            }
-            if(userService.existsUserByEmail(user.getEmail())){
-                result.addError(new FieldError("user", "email", "an account is already registered with this email address. try with another one!"));
-                if (result.hasErrors()) {
-                    model.addAttribute("user", user);
-                    return "signup";
-                }
-            }
-
             user.setPassword(bCryptPasswordEncoder.encode("1234"));
             userService.addUser(user);
-            emailService.sendEmail(user.getEmail(),"1234");
-
+            savingIntoBaseLoginEntity(user,"ROLE_STAFF");
+            emailService.sendEmail(user.getEmail(),"1234",user.getName());
             //send email
             model.addAttribute("user",new User());
             session.setAttribute("message",new Message("Registration Successful","alert-success"));
             return "signup";
         } else {
-
-            model.addAttribute("user",new User());
+            addErrorsToResult(result,errorMsgList);
             session.setAttribute("message",new Message(errorMsgList.toString(),"alert-danger"));
+            model.addAttribute("user",user);
             return "signup";
         }
-
     }
 
+    @Override
+    public void savingIntoBaseLoginEntity(User user,String role) {
+        BaseLoginEntity obj = new BaseLoginEntity();
+        obj.setEmail(user.getEmail());
+        obj.setRole(role);
+        obj.setPassword(user.getPassword());
+        obj.setName(user.getName());
+        obj.setApprovedStatus(false);
+        baseLoginRepository.save(obj);
 
-    private List<String> isValidateUser(User user) {
+    }
+    private void addErrorsToResult(BindingResult result, List<String> errorMsgList) {
+        for(String erroMsg : errorMsgList){
+            if(erroMsg.contains(ConstantUtils.PERMANENT_ADDRESS)){
+                result.addError(new FieldError("user", "z", ""));
+            }
+        }
+    }
+    public List<String> isValidateUser(User user) {
         List<String> errorMsgList = new ArrayList<>();
         if(user != null){
             if(StringUtils.isBlank(user.getEmail())){
                errorMsgList.add("email cannot be blank");
             }
-            if(StringUtils.isBlank(user.getMobileNumber()) || !(user.getMobileNumber().length() == 10)){
-                errorMsgList.add("Mobile number cannot be null or blank and should be be of 10 digit");
+            if(StringUtils.isBlank(user.getMobileNumber())){
+                errorMsgList.add("Mobile number cannot be blank  should be be of 10 digit");
             }
-            if(StringUtils.isBlank(user.getIdentityProof()) || !(user.getIdentityProof().length() == 12)){
-                errorMsgList.add("Aadhar number cannot be null or blank should be of 12 digit");
+            if(!(user.getMobileNumber().length() == 10)){
+                errorMsgList.add("Mobile numbershould be be of 10 digit");
+            }
+            if(StringUtils.isBlank(user.getIdentityProof())){
+                errorMsgList.add("Aadhar number cannot be blank ");
+            }
+            if(!(user.getIdentityProof().length() == 12)){
+                errorMsgList.add("Aadhar number should be of 12 digit");
+            }
+            if(StringUtils.isBlank(user.getPresentAddress()) ){
+                errorMsgList.add("Present address cannot be blank");
+            }
+            if(StringUtils.isBlank(user.getPermanentAddress())){
+                errorMsgList.add("Permanent address cannot be blank");
+            }
+            if(StringUtils.isBlank(user.getDob())){
+                errorMsgList.add("DOB can not null or blank");
             }
         }
-
         return errorMsgList;
     }
-
     @Override
     public void updateUser(User user) {
-
     }
     @Override
     public Optional<User> findUser(String email) {
         return userRepository.findByEmail(email);
     }
-
     @Override
     public Optional<User> findUserById(int id) {
-        return userRepository.findById(id);
+        return Optional.ofNullable(userRepository.findById(id));
     }
-
     @Override
     public boolean existsUserByEmail(String email) {
        return userRepository.existsByEmail(email);
     }
-
+    @Override
+    public boolean existsUserByAadharNumber(String aadhar) {
+        if(null != userRepository.findByIdentityProof(aadhar)){
+            return true;
+        }
+        return false;
+    }
+    @Override
+    public boolean existsUserByMobileNumber(String mobileNum) {
+        if(null != userRepository.findByMobileNumber(mobileNum)){
+            return true;
+        }
+        return false;
+    }
     public boolean verify(String verificationCode) {
         User user = userRepository.findByVerificationCode(verificationCode);
-
         if (user == null || user.isEnabled()) {
             return false;
         } else {
-            user.setVerificationCode(null);
+//            user.setVerificationCode(null);
             user.setEnabled(true);
             userRepository.save(user);
-
             return true;
         }
     }
-
-
     @Override
     public List<User> getAllUsers() {
         return (List<User>) userRepository.findAll();
     }
-
     @Override
     public List<User> getAllStaff() {
         return  userRepository.findByRoleEquals(ConstantUtils.ROLE_STAFF);
     }
-
-
-
-
-
+    @Override
+    public List<User> getAllInWaitingStaff() {
+        return  userRepository.findByIsApprovedFalse();
+    }
+    @Override
+    public String validateDate(String fromDate, String toDate, String userName) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        List<String> errorMsg = new ArrayList<>();
+        LocalDate fromDate1 = LocalDate.parse(fromDate,formatter);
+        LocalDate toDate1 = LocalDate.parse(toDate,formatter);
+        LocalDate currentMonth = LocalDate.now().withDayOfMonth(1);
+        if (fromDate1.isBefore(currentMonth) && fromDate1.isAfter(currentMonth.plusMonths(1))) {
+            return "Leaves can be applied for the current month only.";
+        }
+        if (fromDate1.isAfter(toDate1)) {
+            return "From date is after To date";
+        }
+        User userByUserName = userRepository.getUserByUserName(userName);
+        System.out.println(userByUserName);
+        System.out.println(fromDate);
+        if(userByUserName.getLeave().equals(fromDate)) {
+            return "Leave already applied..!!";
+        }
+        return "You are eligible to apply for a leave";
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
 //    @Override
 //    public void sendVerificationEmail(User user, String siteURL) throws MessagingException, UnsupportedEncodingException {
 //        String toAddress = "Himanshi.Borawar@programmers.io";

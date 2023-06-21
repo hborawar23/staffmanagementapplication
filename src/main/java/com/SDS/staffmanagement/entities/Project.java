@@ -1,10 +1,12 @@
 package com.SDS.staffmanagement.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.util.List;
 
 @Entity
 @Table
@@ -12,7 +14,6 @@ import javax.validation.constraints.NotEmpty;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 public class Project {
 
 
@@ -21,20 +22,24 @@ public class Project {
     private int projectId;
 
     @NotEmpty
-    private  String name;
+    private  String projectName;
 
     private String projectDescription;
 
-    @ManyToOne
-    @JoinColumn(name = "user_project_key_id")
-    @JsonBackReference
-    private User user;
+    private int memberCount;
+
+    private String managerName;
 
     @ManyToOne
     @JoinColumn(name = "manager_id")
     @JsonBackReference
     private Manager manager;
 
+
+
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<User> users;
 
 
 }

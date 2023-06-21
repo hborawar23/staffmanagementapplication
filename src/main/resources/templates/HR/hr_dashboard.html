@@ -9,6 +9,89 @@
 <body>
 <section >
     <h1>This is HR Dashboard</h1>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Project List</h5>
+
+                    <a th:href="@{modify_project}" class="btn btn-primary">Open</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Holiday Calendar</h5>
+
+                    <a th:href="@{calendar}" class="btn btn-primary">Open</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title ">Manager List</h5>
+                    <a th:href="@{modify_manager}" class="btn btn-primary text-center">Open</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Staff List</h5>
+                    <a th:href="@{modify_staff}" class="btn btn-primary">Open</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="card" >
+             <div class="card-body">
+                <h5 class="card-title">Download Staff Profile</h5>
+                 <a th:href="@{download_staff_profile}" class="btn btn-primary">Open</a>
+                </div>
+            </div>
+         </div>
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Staff Approval Waiting List</h5>
+                    <a th:href="@{staff_waiting_list}" class="btn btn-primary">Open</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="card" >
+                <div class="card-body">
+                    <h5 class="card-title">Manager Approval Waiting List</h5>
+                    <a th:href="@{manager_waiting_list}" class="btn btn-primary">Open</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 </body>
 </html>
+
+<!--<li class="nav-item">-->
+<!--    <a href="#" th:href="@{calendar}" class="nav-link"><i class="fa-solid fa-calendar-days"></i>Holiday Calendar</a>-->
+<!--</li>-->
+
+<!--<li class="nav-item">-->
+<!--    <a href="#" th:href="@{modify_project}" class="nav-link"><i class="fa-solid fa-pen-to-square"></i>Project List</a>-->
+<!--</li>-->
+<!--<li class="nav-item">-->
+<!--    <a href="#" th:href="@{modify_manager}" class="nav-link"><i class="fa-solid fa-pen-to-square"></i>Manager List</a>-->
+<!--</li>-->
+<!--<li class="nav-item">-->
+<!--    <a href="#" th:href="@{modify_staff}" class="nav-link"><i class="fa-solid fa-pen-to-square"></i>Staff List</a>-->
+<!--</li>-->
+<!--<li class="nav-item">-->
+<!--    <a href="#" th:href="@{download_staff_profile}" class="nav-link"><i class="fa-solid fa-address-card"></i>Download Staff Profile</a>-->
+<!--</li>-->

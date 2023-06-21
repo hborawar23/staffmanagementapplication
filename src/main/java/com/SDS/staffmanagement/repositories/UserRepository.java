@@ -20,9 +20,14 @@ public interface UserRepository extends JpaRepository<User,Integer> {
 
     boolean existsByEmail(String email);
 
+    User findById(int id);
 
 
+    List<User> findByIsApprovedFalse();
 
+    User findByIdentityProof(String aadhar);
 
+    User findByMobileNumber(String mobileNum);
 
+//    User finByProject(int projectId);
 }

@@ -22,4 +22,14 @@ public class HolidayCalenderServiceImpl implements HolidayCalenderService{
     public List<HolidayCalender> getAllHolidays() {
         return holidayCalenderRepository.findAll();
     }
+
+    @Override
+    public boolean isHolidayAlreadyExist(HolidayCalender holidayCalender) {
+       HolidayCalender holidayCalender1 =  holidayCalenderRepository.findByDate(holidayCalender.getDate());
+       if(holidayCalender1 != null){
+           return true;
+       } else {
+           return false;
+       }
+    }
 }

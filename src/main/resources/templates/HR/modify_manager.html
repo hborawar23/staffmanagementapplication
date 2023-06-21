@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="HR/base::Layout(~{::section})"
+      xmlns="http://www.w3.org/1999/html">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<section>
+  <h1 class="text-center mb-2">Modify Manager </h1>
+  <table class="table table-light table-striped mr-3 ml-3">
+    <thead>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Role</th>
+      <th scope="col">Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="m : ${allManager}">
+
+      <td th:text="${m.name}"></td>
+      <td th:text="${m.role}"></td>
+      <td>
+
+        <a th:href="@{'/hr/delete_manager/' + ${m.id}}" class="btn btn-danger btn-sm">Delete</a>
+        <br>
+        <form th:action="@{'/hr/update_manager/' + ${m.id}}" class="mt-2">
+          <button type="submit" class="btn btn-success btn-sm text-center"> Update </button>
+        </form>
+
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <div class="container text-center">
+    <a th:href="@{/hr/add_manager}" class="btn btn-success btn-sm text-center">Add New </a>
+  </div>
+</section>
+</body>
+</html>

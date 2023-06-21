@@ -135,9 +135,10 @@ public class LeaveServiceImpl implements LeaveService {
                 return errorMsg;
             }
             if(StringUtils.isBlank(leaveHistory.getDescription())){
-                errorMsg = "Description cannot be null or blank";
+                errorMsg = "Description cannot be  blank";
                 return errorMsg;
             }
+
         }
        return errorMsg;
     }

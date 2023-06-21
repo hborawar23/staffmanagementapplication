@@ -30,34 +30,27 @@ import java.util.*;
 @Controller
 @RequestMapping("/staff")
 public class StaffController {
-
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
     private UserService userService;
-
     @Autowired
     private HolidayCalenderService holidayCalenderService;
-
     @Autowired
     private HolidayCalenderRepository holidayCalenderRepository;
-
     @Autowired
     private LeaveService leaveService;
-
     @Autowired
     private LeaveRepository leaveRepository;
-
     @RequestMapping("/")
     public String dashboard(Model model, Principal principal,HttpSession session) {
         User user = userRepository.getUserByUserName(principal.getName());
         if(null != user){
-            if(StringUtils.isBlank(user.getSkillExperience())){
-                model.addAttribute("user",new User());
-                session.setAttribute("message",new Message("Registration Successful","alert-success"));
-                return "Staff/staff_dashboard";
-            }
+//            if(StringUtils.isBlank(user.getSkillExperience())){
+//                model.addAttribute("user",new User());
+//                session.setAttribute("message",new Message("Registration Successful","alert-success"));
+//                return "Staff/staff_dashboard";
+//            }
         }
         model.addAttribute("title","Staff Dashboard");
         return "Staff/staff_dashboard";
@@ -69,39 +62,19 @@ public class StaffController {
         model.addAttribute("allHolidays",allHolidays);
         return "Staff/view_calendar";
     }
-
     @GetMapping("/apply_leaves_page")
     public String apply_leaves_page(Model model){
         model.addAttribute("title","Apply Leaves");
         return "Staff/apply_leaves";
     }
-
     @PostMapping("/process_leave")
     public String process_leave(@ModelAttribute LeaveHistory leaveHistory, Model model, HttpSession session,Principal principal) throws ParseException {
         leaveService.processLeave(leaveHistory,session,principal);
         return "/Staff/apply_leaves";
     }
     private String validateDate(String fromDate, String toDate,String userName) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        List<String> errorMsg = new ArrayList<>();
-        LocalDate fromDate1 = LocalDate.parse(fromDate,formatter);
-        LocalDate toDate1 = LocalDate.parse(toDate,formatter);
-        LocalDate currentMonth = LocalDate.now().withDayOfMonth(1);
-        if (fromDate1.isBefore(currentMonth) && fromDate1.isAfter(currentMonth.plusMonths(1))) {
-            return "Leaves can be applied for the current month only.";
-        }
-        if (fromDate1.isAfter(toDate1)) {
-            return "From date is after To date";
-        }
-        User userByUserName = userRepository.getUserByUserName(userName);
-        System.out.println(userByUserName);
-        System.out.println(fromDate);
-        if(userByUserName.getLeave().equals(fromDate)) {
-          return "Leave already applied..!!" ;
-        }
-        return "You are eligible to apply for a leave" ;
+        return userService.validateDate(fromDate, toDate, userName);
     }
-
     @GetMapping("/download_profile")
     public String download_profile(Model model){
         model.addAttribute("title","Download Profile");
@@ -113,7 +86,19 @@ public class StaffController {
         String headerKey = "Content-Disposition";
         String headerValue = "attachment; filename=user.pdf";
         response.setHeader(headerKey, headerValue);
-        String userName = principal.getName();
-        User userByUserName = userRepository.getUserByUserName(userName);
+        User user = userRepository.getUserByUserName(principal.getName());
+
+    }
+
+    @RequestMapping("/project_details")
+    public String projectDetails(Model model,Principal principal){
+        model.addAttribute("title","My Project Details");
+        User user = userRepository.getUserByUserName(principal.getName());
+        if(user.getProject() != null) {
+            model.addAttribute("project", user.getProject());
+            return "Staff/project_details";
+        }else {
+            return "Staff/staff_project_Not_found";
+        }
     }
 }

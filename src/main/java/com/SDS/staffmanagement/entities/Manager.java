@@ -12,7 +12,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@ToString
 public class Manager {
 
     @Id
@@ -28,6 +27,12 @@ public class Manager {
     private String mobileNumber;
 
     private String skills;
+
+    private String password;
+
+    private String role;
+
+    private boolean isApproved = false;
 
     @OneToMany(mappedBy = "manager", cascade = CascadeType.ALL)
     @JsonManagedReference

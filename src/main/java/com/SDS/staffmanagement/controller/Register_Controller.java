@@ -1,7 +1,9 @@
 package com.SDS.staffmanagement.controller;
+import com.SDS.staffmanagement.entities.Manager;
 import com.SDS.staffmanagement.entities.User;
 import com.SDS.staffmanagement.helper.Message;
 import com.SDS.staffmanagement.services.EmailService;
+import com.SDS.staffmanagement.services.ManagerService;
 import com.SDS.staffmanagement.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -27,20 +29,33 @@ import java.util.UUID;
 @Controller
 @RequestMapping("/register")
 public class Register_Controller {
-
     @Autowired
     private UserService userService;
     @Autowired
     private EmailService emailService;
-
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
-
-    //handler for registering user
-    @PostMapping("/do_register")
-    public String registerUser(@Valid @ModelAttribute("user") User user, Model model, @RequestParam(value = "agreement",defaultValue = "false")boolean agreement, @RequestParam("pic") MultipartFile file, BindingResult result, HttpSession session) throws Exception {
+    @Autowired
+    private ManagerService managerService;
+    @RequestMapping("/manager")
+    public String signManager(Model model) {
+        model.addAttribute("title", "Register - Staff Management System");
+        model.addAttribute("manager", new Manager());
+        return "manager_registration";//make a page here
+    }
+    @PostMapping("/do_manager_register")
+    public String registerManager(@Valid @ModelAttribute("manager") Manager manager, Model model,BindingResult result, HttpSession session) throws Exception {
         try {
-            userService.registerUser(user, agreement, file, result, model,session);
+            managerService.registerManager(manager, result, model,session);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return "manager_registration";
+    }
+    @PostMapping("/do_register")
+    public String registerUser(@Valid @ModelAttribute("user") User user, Model model, @RequestParam(value = "agreement",defaultValue = "false")boolean agreement, BindingResult result, HttpSession session) throws Exception {
+        try {
+            userService.registerUser(user, agreement, result, model,session);
         } catch (Exception e){
             e.printStackTrace();
         }

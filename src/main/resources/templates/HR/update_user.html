@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="HR/base::Layout(~{::section})"
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="HR/update_base::Layout(~{::section})"
       xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
@@ -20,7 +20,7 @@
 
                     <h2 class="text-center">Update Staff</h2>
                     <form method="post"
-                          th:action="@{/hr/process_update}"
+                          th:action="@{/hr/process_update_user}"
                           th:object="${user}"
                           enctype="multipart/form-data"
                           class="mt-2">
@@ -35,37 +35,11 @@
                                     type="text"
                                     class="form-control"
                                     id="Name_Field"
-                                    placeholder="Enter Your Name Here"
                                     required
                                     th:value="${user.name}"
                             />
                         </div>
-                        <!---Father's Name--->
-                        <div class="form-group">
-                            <label for="Father_Name_Field">Father Name</label>
-                            <input
-                                    name="fatherName"
-                                    type="text"
-                                    class="form-control"
-                                    id="Father_Name_Field"
-                                    placeholder="Enter Father's Name Here"
-                                    required
-                                    th:value="${user.fatherName}"
-                            />
-                        </div>
-                        <!---Mother's Name--->
-                        <div class="form-group">
-                            <label for="Mother_Name_Field">Mother Name</label>
-                            <input
-                                    name="motherName"
-                                    type="text"
-                                    class="form-control"
-                                    id="Mother_Name_Field"
-                                    placeholder="Enter Mother's Name Here"
-                                    required
-                                    th:value="${user.motherName}"
-                            />
-                        </div>
+
                         <!--Email Field-->
                         <div class="form-group">
                             <label for="Email_Field">Email Id</label>
@@ -89,7 +63,7 @@
                         </div>
 
                         <div class="form-check">
-                            <input  name="gender" class="form-check-input" type="radio"  id="exampleRadios2" value="Female">
+                            <input  name="gender" class="form-check-input" type="radio"  id="exampleRadios2" th:value="${user.gender}" value="Female">
                             <label class="form-check-label" for="exampleRadios2">
                                 Female
                             </label>
@@ -163,9 +137,7 @@
                                 <button type="submit" class="btn bg-primary text-white">
                                     Update
                                 </button>
-                                <button type="reset" class="btn btn-warning ">
-                                    Reset
-                                </button>
+
                             </div>
                         </form>
                 </div>

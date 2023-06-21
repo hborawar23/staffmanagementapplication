@@ -21,7 +21,7 @@
             <img style="width: 80px;" src="" th:src="@{/image/registration.png}">
           </div>
 
-          <h2 class="text-center">Register Here</h2>
+          <h2 class="text-center">Staff Registration</h2>
           <form action="#"
                 enctype="multipart/form-data"
                 method="post"
@@ -43,37 +43,6 @@
                     </div>
             </div>
 
-            <!---Father's Name--->
-            <div class="form-group">
-              <label for="Father_Name_Field" class="form-label">Father Name</label>
-              <input
-                      name="fatherName"
-                      type="text"
-                      class="form-control"
-                      th:classappend="${#fields.hasErrors('fatherName') ? 'is-invalid' : ' '}"
-                      id="Father_Name_Field"
-                      placeholder="Enter Father's Name Here"
-                      th:value="${user.fatherName}"
-                      required
-                      >
-                     <div th:each="e:${#fields.errors('fatherName')}" th:text="${e}" class="invalid-feedback">
-                     </div>
-            </div>
-            <!---Mother's Name--->
-            <div class="form-group">
-              <label for="Mother_Name_Field" class="form-label">Mother Name</label>
-              <input
-                      name="motherName"
-                      type="text"
-                      class="form-control"
-                      th:classappend="${#fields.hasErrors('motherName') ? 'is-invalid' : ' '}"
-                      id="Mother_Name_Field"
-                      placeholder="Enter Mother's Name Here"
-                      required
-                      th:value="${user.motherName}">
-              <div th:each="e:${#fields.errors('motherName')}" th:text="${e}" class="invalid-feedback">
-              </div>
-            </div>
             <!--Email Field-->
             <div class="form-group">
               <label for="Email_Field" class="form-label">Email </label>
@@ -92,22 +61,20 @@
             <!---Gender--->
             <label class="form-label">Gender</label>
             <div class="form-check">
-              <input name="gender" class="form-check-input" type="radio"  id="exampleRadios1" th:value="'Male'" required>
+              <input name="gender" class="form-check-input" type="radio"  id="exampleRadios1" th:value="${user.gender}" required>
               <label class="form-check-label" for="exampleRadios1">
                 Male
               </label>
               </div>
 
             <div class="form-check">
-              <input  name="gender" class="form-check-input" type="radio"  id="exampleRadios2"  th:value="'Female'" required>
+              <input  name="gender" class="form-check-input" type="radio"  id="exampleRadios2" th:value="${user.gender}" required>
               <label class="form-check-label" for="exampleRadios2">
                 Female
               </label>
             </div>
 
 
-
-            <!---Photo-->
 
 
             <!---Role--->
@@ -123,7 +90,10 @@
              <!---DOB-->
               <div class="mb-3">
                 <label  class="form-label">DOB</label>
-                <input type="date" name="dob" class="form-control" placeholder="Enter DOB">
+                <input type="date" name="dob" class="form-control"
+                       placeholder="Enter DOB"
+                        th:value="${user.dob}"
+                >
               </div>
 
 
@@ -132,16 +102,23 @@
               <div class="input-group-prepend mb-3">
                 <div class="input-group-text">Permanent Address</div>
               </div>
-              <textarea name="permanentAddress" class="form-control mb-3" aria-label="Address"></textarea>
+              <textarea name="permanentAddress" class="form-control mb-3"
+                        aria-label="Address"
+                        th:text="${user.permanentAddress}">
+              </textarea>
             </div>
 
             <div class="input-group">
               <div class="input-group-prepend mb-3">
                 <div class="input-group-text">Present Address</div>
               </div>
-              <textarea name="presentAddress" class="form-control mb-3" aria-label="Address"></textarea>
-            </div>
+              <textarea name="presentAddress"
+                        class="form-control mb-3"
+                        aria-label="Address"
+                        th:text="${user.presentAddress}">
 
+              </textarea>
+            </div>
 
             <!---Identity proof--->
             <div class="mb-3">
@@ -152,7 +129,7 @@
 
                      id="exampleInputGovernmentId1"
                      aria-describedby="emailHelp"
-
+                     th:value="${user.identityProof}"
                      required>
 
             </div>

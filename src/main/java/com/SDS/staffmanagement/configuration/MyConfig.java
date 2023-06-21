@@ -24,6 +24,8 @@ import java.util.Set;
 @Configuration
 @EnableWebSecurity
 public class MyConfig extends WebSecurityConfigurerAdapter {
+    @Autowired
+    public AuthenticationSuccessHandler customSuccessHandler;
 
     @Bean
     public UserDetailsService getUserDetailService(){
@@ -40,8 +42,8 @@ public class MyConfig extends WebSecurityConfigurerAdapter {
     {
         System.out.println("DaoAuthentication++++++++++++++++++++++++++++");
         DaoAuthenticationProvider daoAuthenticationProvider=new DaoAuthenticationProvider();
-        daoAuthenticationProvider.setUserDetailsService(this.getUserDetailService());
-        daoAuthenticationProvider.setPasswordEncoder(this.passwordEncoder());
+        daoAuthenticationProvider.setUserDetailsService(getUserDetailService());
+        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
         return daoAuthenticationProvider;
     }
 
@@ -53,50 +55,50 @@ public class MyConfig extends WebSecurityConfigurerAdapter {
 
     }
 
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        System.out.println("Security check----------------------------*****************************");
+        http.authorizeRequests()
+                .antMatchers("/hr/**").hasRole("HR")
+                .antMatchers("/staff/**").hasRole("STAFF")
+                .antMatchers("/manager/**").hasRole("MANAGER")
+                .antMatchers("/**")
+                .permitAll()
+                .and()
+                .formLogin()
+                .loginPage("/signin")
+                .loginProcessingUrl("/login")
+                .successHandler(customSuccessHandler)
+                .and()
+                .csrf()
+                .disable();
+    }
+
 //    @Override
 //    protected void configure(HttpSecurity http) throws Exception {
-//        System.out.println("Security check----------------------------*****************************");
-//        http.authorizeRequests()
-////                .antMatchers("/hr/**").hasRole("HR")
-//                .antMatchers("/staff/**").permitAll()
+//        http.authorizeRequests().antMatchers("/staff/**").hasRole("STAFF")
 //                .antMatchers("/manager/**").permitAll()
-//                .antMatchers("/**")
-//                .permitAll()
+//                .antMatchers("/hr/**").permitAll()
+//                .antMatchers("/**").permitAll()
 //                .and()
 //                .formLogin()
 //                .loginPage("/login")
-//                .loginProcessingUrl("login")
-//                .successHandler(customSuccessHandler)
-//                .and()
-//                .csrf()
-//                .disable();
+//                .successHandler(new AuthenticationSuccessHandler() {
+//                    @Override
+//                    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+//                        Set<String> role = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
+//                        if(role.contains("ROLE_STAFF")){
+//                            response.sendRedirect("/staff/");
+//                        }else if (role.contains("ROLE_MANAGER")) {
+//                            response.sendRedirect("/manager/");
+//                        }
+//                        else {
+//                            response.sendRedirect("/hr/");
+//                        }
+//                    }
+//                })
+//                .and().csrf().disable();
 //    }
-
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/staff/**").hasRole("STAFF")
-                .antMatchers("/manager/**").hasRole("MANAGER")
-                .antMatchers("/hr/**").permitAll()
-                .antMatchers("/**").permitAll()
-                .and()
-                .formLogin()
-                .loginPage("/login")
-                .successHandler(new AuthenticationSuccessHandler() {
-                    @Override
-                    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-                        Set<String> role = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
-                        if(role.contains("ROLE_STAFF")){
-                            response.sendRedirect("/staff/");
-                        }else if (role.contains("ROLE_MANAGER")) {
-                            response.sendRedirect("/manager/");
-                        }
-                        else {
-                            response.sendRedirect("/hr/");
-                        }
-                    }
-                })
-                .and().csrf().disable();
-    }
 
 
 }

@@ -18,12 +18,11 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="p : ${projects}">
-
-                <td th:text="${p.name}"></td>
-                <td th:text="${p.projectDescription}"></td>
+            <tr>
+                <td th:text="${projects.projectName}"></td>
+                <td th:text="${projects.projectDescription}"></td>
                 <td>
-                    <a th:href="@{'/manager/delete/' + ${p.Id}}" class="btn btn-success btn-sm">Delete</a>
+                    <a th:href="@{'/manager/delete/' + ${projects.projectId}}" class="btn btn-success btn-sm">Delete</a>
                 </td>
             </tr>
             </tbody>

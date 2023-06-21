@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="HR/update_base::Layout(~{::section})"
+      xmlns="http://www.w3.org/1999/html">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<section>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 offset-md-2">
+        <div class="my-card mt-3">
+          <div th:if ="${session.message}" th:classappend="${session.message.type}" class="alert alert-primary" role="alert">
+            <p class="text-center" th:text="${session.message.content}"></p>
+            <th:block th:text="${#session.removeAttribute('message')}"></th:block>
+          </div>
+          <form action=""  method="post"
+                th:action="@{/hr/process_update_project}"
+                th:object="${project}">
+            <H1 class="text-center mb-2">Update Project</H1>
+            <div class="form-group">
+              <input type="hidden" th:value="${project.projectId}" name="projectId">
+              <label for="Name_Field">Project Name</label>
+              <input
+                      name="projectName"
+                      type="text"
+                      class="form-control"
+                      id="Name_Field"
+                      placeholder="Enter Project Name Here"
+                      required
+                      th:value="${project.projectName}"
+              />
+            </div>
+            <div class="form-group">
+              <label for="projectDescription">Project Description</label>
+              <textarea name="projectDescription"
+                        class="form-control"
+                        id="projectDescription"
+                        rows="3"
+                        th:text="${project.projectDescription}">
+              </textarea>
+            </div>
+
+            <label for="manager">Select a manager:</label>
+            <select id="manager" name="manager" >
+              <option th:each="manager : ${managers}" th:value="${manager.id}" th:text="${manager.name}"></option>
+            </select>
+            <div class="container text-center">
+              <button type="submit" class="btn bg-primary text-white">
+                Update
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</body>
+</html>

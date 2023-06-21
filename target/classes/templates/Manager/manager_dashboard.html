@@ -9,6 +9,44 @@
 <body>
 <section >
     <h1>This is Manager Dashboard</h1>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Approve Leaves</h5>
+
+                    <a th:href="@{/manager/approve_leaves}" class="btn btn-primary">Open</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Project List</h5>
+                    <a th:href="@{/manager/project_list}" class="btn btn-primary">Open</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title ">Staff Info</h5>
+                    <a th:href="@{/manager/modify_project}" class="btn btn-primary text-center">Open</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Staff List Download</h5>
+                    <a th:href="@{/manager/download_staff_profile}" class="btn btn-primary">Open</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 </body>
 </html>
+

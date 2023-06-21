@@ -1,4 +1,5 @@
 package com.SDS.staffmanagement.entities;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -39,12 +40,6 @@ public class User {
     @Size(min = 3, max = 25, message = "name should between 3 to 20 characters !!")
     private String name;
 
-    @NotBlank(message = "Father Name field is required !!")
-    private String fatherName;
-
-    @NotBlank(message = "Mother Name field is required !!")
-    private String motherName;
-
     @Column(unique = true)
     @NotBlank
     @Pattern(regexp = "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$", message = "invalid email!!")
@@ -55,6 +50,8 @@ public class User {
     private String role;
 
     private String identityProof;
+
+    private boolean isApproved;
 
     @NotBlank
     private String permanentAddress;
@@ -72,11 +69,15 @@ public class User {
     private List<LeaveHistory> leave;
 
 //    @Column(columnDefinition="String default Null")
-    private String skillExperience;
+//    private String skillExperience;
 
 //    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 //    @JsonManagedReference
 //    private List<Project> projects;
 
+    @ManyToOne
+    @JoinTable(name = "project_id")
+    @JsonBackReference
+    private Project project;
 
 }
