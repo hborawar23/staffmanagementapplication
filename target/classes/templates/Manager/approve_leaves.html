@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="Manager/base::Layout(~{::section})"
+      xmlns="http://www.w3.org/1999/html">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<section>
+
+  <table class="table table-light table-striped">
+    <thead>
+    <tr>
+      <th scope="col">Id</th>
+      <th scope="col">From</th>
+      <th scope="col">To</th>
+      <th scope="col">Description</th>
+      <th scope="col">Action</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="u : ${allLeaves}">
+      <td th:text="${u.id}"></td>
+      <td th:text="${u.fromDate}"></td>
+      <td th:text="${u.toDate}"></td>
+      <td th:text="${u.description}"></td>
+      <td>
+
+        <a th:href="@{'/manager/process_approve/' + ${u.id} }" class="btn btn-success btn-sm">Approve</a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+
+</section>
+</body>
+</html>

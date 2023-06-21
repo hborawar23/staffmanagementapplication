@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="Manager/base::Layout(~{::section})"
+      xmlns="http://www.w3.org/1999/html">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<section>
+  <h2 class="text-center mb-5">Project List</h2>
+  <table class="table table-light table-striped mr-10 ml-10">
+    <thead>
+    <tr>
+      <th scope="col">Project Name</th>
+      <th scope="col">Project Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td th:text="${project.projectName}">
+      <td th:text="${project.projectDescription}">
+   </tr>
+    </tbody>
+  </table>
+
+  <table class="table table-light table-striped mr-10 ml-10">
+    <thead>
+    <tr>
+      <th scope="col">Staff Assigned</th>
+      <th scope="col">Action</th>
+    </tr>
+    <tr th:each="u : ${users}">
+      <td th:text="${u.name}"></td>
+      <td> <a th:href="@{'/manager/delete_staff_project/' + ${u.id}}" class="btn btn-danger ">Delete</a></td>
+    </tr>
+
+
+
+</section>
+</body>
+</html>

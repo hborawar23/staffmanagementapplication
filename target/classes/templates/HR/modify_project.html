@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="HR/base::Layout(~{::section})"
+      xmlns="http://www.w3.org/1999/html">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<section>
+  <h1 class="text-center mb-2">Project Details</h1>
+  <table class="table table-light table-striped mr-9 ml-9">
+    <thead>
+    <tr>
+      <th scope="col">Project Name</th>
+      <th scope="col">Project Description</th>
+      <th scope="col">Project Manager</th>
+      <th scope="col">Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="p : ${allProjects}">
+      <td th:text="${p.projectName}"></td>
+      <td th:text="${p.projectDescription}"></td>
+      <td th:text="${p.managerName}"></td>
+      <td>
+        <a th:href="@{/hr/delete_project/}" class="btn btn-danger btn-sm">Delete</a>
+<!--        + ${p.projectId}-->
+        <br>
+        <form th:action="@{'/hr/update_project/'+ ${p.projectId}}" class="mt-2">
+
+          <button type="submit" class="btn btn-success btn-sm text-center"> Update </button>
+        </form>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <div class="container text-center">
+    <a th:href="@{/hr/add_project}" class="btn btn-success btn-sm text-center">Add New </a>
+  </div>
+</section>
+</body>
+</html>
