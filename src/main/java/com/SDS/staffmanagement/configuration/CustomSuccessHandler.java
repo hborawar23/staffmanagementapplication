@@ -38,6 +38,8 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
          }
     }
 }
+
+
 //    Set<String> role = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
 //                        if(role.contains("ROLE_STAFF")){
 //                            response.sendRedirect("/staff/");
