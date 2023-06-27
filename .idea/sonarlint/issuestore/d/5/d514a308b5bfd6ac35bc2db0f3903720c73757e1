@@ -1,0 +1,9 @@
+
+o	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ίδυ 
+Q	java:S125"<This block of commented-out lines of code should be removed.(Δ΄°
+o
+java:S1128"MRemove this unused import 'com.SDS.staffmanagement.entities.HolidayCalender'.(“¬Ιωÿÿÿÿ8―²ωπ1
+i
+java:S1128"LRemove this unused import 'org.springframework.data.repository.query.Param'.(©”τ8―²ωπ1
+R
+java:S1128	"0Remove this unused import 'java.time.LocalDate'.(›‘¬θύÿÿÿÿ8―²ωπ1

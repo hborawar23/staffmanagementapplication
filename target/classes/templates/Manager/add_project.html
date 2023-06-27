@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="Manager/base::Layout(~{::section})"
+      xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<section>
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="my-card mt-3">
+                <div th:if ="${session.message}" th:classappend="${session.message.type}" class="alert alert-primary" role="alert">
+                    <p class="text-center" th:text="${session.message.content}"></p>
+
+                    <th:block th:text="${#session.removeAttribute('message')}"></th:block>
+                </div>
+
+                <h2 class="text-center">Assign Project</h2>
+                <form action=""  method="post" th:action="@{'/manager/add_project_form/' + ${user.id}}" th:object="${project}">
+
+
+
+                    <label for="project">Select a project:</label>
+                    <select id="project" name="project" >
+                        <option th:each="project : ${projects}" th:value="${project.projectId}" th:text="${project.projectName}"></option>
+                    </select>
+
+
+                    <div class="container text-center">
+                        <button type="submit" class="btn bg-primary text-white">
+                            Add Project
+                        </button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+</body>
+</html>

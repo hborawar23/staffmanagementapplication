@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="base::Layout(~{::section})"
+      xmlns="http://www.w3.org/1999/html">
+<head>
+  <meta charset="UTF-8">
+  <title>This is Home Page</title>
+</head>
+<body>
+<section>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 offset-md-2">
+        <div class="my-card mt-3">
+
+          <div th:if ="${session.message}" th:classappend="${session.message.type}" class="alert alert-primary" role="alert">
+            <p class="text-center" th:text="${session.message.content}"></p>
+            <th:block th:text="${#session.removeAttribute('message')}"></th:block>
+          </div>
+          <!--Registration Image--->
+          <div class="container text-center" >
+            <img style="width: 80px;" src="" th:src="@{/image/registration.png}">
+          </div>
+
+          <h2 class="text-center">Manager Registration</h2>
+          <form action="#"
+                enctype="multipart/form-data"
+                method="post"
+                th:action="@{/register/do_manager_register}"
+                th:object="${manager}">
+
+            <!--Name Field-->
+            <div class="form-group">
+              <label for="Name_Field" class="form-label">Full Name</label>
+              <input  name="name"
+                      type="text"
+                      class="form-control"
+                      th:classappend="${#fields.hasErrors('name') ? 'is-invalid' : ' '}"
+                      id="Name_Field"
+                      placeholder="Enter Your Name Here"
+                      aria-describedby="emailHelp"
+                      th:value="${manager.name}"
+                      required>
+              <div th:each="e:${#fields.errors('name')}" th:text="${e}" class="invalid-feedback">
+              </div>
+            </div>
+
+            <!--Email Field-->
+            <div class="form-group">
+              <label for="Email_Field" class="form-label">Email </label>
+              <input  name="email"
+                      type="email"
+                      class="form-control"
+                      th:classappend="${#fields.hasErrors('email') ? 'is-invalid' : ' '}"
+                      id="Email_Field"
+                      aria-describedby="emailHelp"
+                      placeholder="Enter you email here"
+                      th:value="${manager.email}"
+                      required>
+              <div th:each="e:${#fields.errors('email')}" th:text="${e}" class="invalid-feedback">
+              </div>
+            </div>
+            <!---Gender--->
+            <label class="form-label">Gender</label>
+            <div class="form-check">
+              <input name="gender" class="form-check-input" type="radio"  id="exampleRadios1" th:value="'Male'" required>
+              <label class="form-check-label" for="exampleRadios1">
+                Male
+              </label>
+            </div>
+
+            <div class="form-check">
+              <input  name="gender" class="form-check-input" type="radio"  id="exampleRadios2"  th:value="'Female'" required>
+              <label class="form-check-label" for="exampleRadios2">
+                Female
+              </label>
+            </div>
+
+            <!---Mobile number--->
+            <div class="input-group mb-3 ">
+              <label for="mobileNumber" class="form-label mr-2"> Mobile Number </label>
+
+              <input  type="text"
+                      name="mobileNumber"
+                      class="form-control"
+                      th:classappend="${#fields.hasErrors('mobileNumber') ? 'is-invalid' : ' '}"
+                      id="mobileNumber"
+                      placeholder="mobile number"
+                      aria-describedby="emailHelp"
+                      th:value="${manager.mobileNumber}"
+                      required>
+              <div th:each="e:${#fields.errors('mobileNumber')}" th:text="${e}" class="invalid-feedback">
+              </div>
+            </div>
+
+            <!--  Buttons -->
+            <div class="container text-center">
+              <button type="submit" class="btn bg-primary text-white">
+                Register
+              </button>
+              <button type="reset" class="btn btn-warning ">
+                Reset
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="Staff/base::Layout(~{::section})"
+      xmlns="http://www.w3.org/1999/html">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+  <section>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 offset-md-2">
+        <div class="my-card mt-3 ">
+         <h1 class="text-center">Apply Leaves</h1>
+          <form action=""  method="post" th:action="@{/staff/process_leave}" >
+            <div th:if ="${session.message}" th:classappend="${session.message.type}" class="alert alert-primary" role="alert">
+              <p class="text-center" th:text="${session.message.content}"></p>
+              <th:block th:text="${#session.removeAttribute('message')}"></th:block>
+            </div>
+
+            <div class="mb-3">
+              <label for="date1">Start Date</label>
+              <input id="date1" type="date" name="fromDate" class="form-control" placeholder="Enter Start Date">
+            </div>
+
+            <div class="mb-3">
+              <label for="date2">End Date</label>
+              <input id="date2" type="date" name="toDate" class="form-control" placeholder="Enter End Date">
+            </div>
+
+            <div class="form-group">
+              <label for="leave_type"> Select leave type </label>
+              <select name="leaveType" class="form-control" id="leave_type">
+                <option>FULL DAY</option>
+                <option>HALF DAY</option>
+              </select>
+            </div>
+
+            <div class="input-group">
+              <div class="input-group-prepend mb-3">
+                <div class="input-group-text">Leave Description</div>
+              </div>
+              <textarea name="description" class="form-control mb-3" aria-label="Description"></textarea>
+            </div>
+
+            <div class="container text-center">
+              <button type="submit" id="btn1" class="btn bg-primary text-white">
+                Apply
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  </section>
+</body>
+</html>

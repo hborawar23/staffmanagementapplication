@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="HR/base::Layout(~{::section})"
+      xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<section>
+    <h1 class="text-center mb-3">Holiday List</h1>
+    <table class="table table-light table-striped mr-10 ml-10">
+        <thead>
+        <tr>
+            <th scope="col">Holiday Date</th>
+            <th scope="col">Holiday Remarks</th>
+            <th scope="col">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="h : ${allHolidays}">
+
+            <td th:text="${h.date}"></td>
+            <td th:text="${h.remark}"></td>
+            <td>
+
+                <a th:href="@{'/hr/delete_holiday/' + ${h.id}}" class="btn btn-danger btn-sm">Delete</a>
+                <!--        <a th:href="@{'/hr/update_user/'  + ${u.Id}}" class="btn btn-success btn-sm text-center">Update</a>-->
+                <br>
+
+
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="container text-center">
+        <a th:href="@{/hr/add_holiday}" class="btn btn-success btn-sm text-center">Add Holiday</a>
+    </div>
+</section>
+</body>
+</html>
