@@ -22,10 +22,8 @@
     <tr th:each="s : ${staffWaitingList}">
       <td th:text="${s.name}"></td>
 
-<!--      <td th:text="$"></td>-->
-<!--      <td th:text="${"></td>-->
       <td>
-        <a th:href="@{'/hr/approve_staff/'+ ${s.baseLoginId}}" class="btn btn-success btn-sm">Approve</a>
+        <a th:href="@{'/hr/approve_staff/'+ ${s.id}}" class="btn btn-success btn-sm">Approve</a>
       </td>
 
 
